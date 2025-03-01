@@ -1,0 +1,17 @@
+.footer {
+	background-color: var(--primary-color);
+}
+
+.container {
+	width: 1200px;
+	margin: 0 auto;
+	text-align: left;
+	padding: 25px 40px;
+}
+
+.link {
+	color: var(--background-color);
+	font-size: 18px;
+	font-weight: 700;
+}
+/* я кстати знаешь что подумала, а если я на гитхаб буду заливать проект,  и если у меня вопросы будут возникать что бы я тебе не скрины кидала, а ты бы просто заходил в репозиторий и там бы все видел вживую? */

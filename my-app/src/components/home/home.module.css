@@ -1,0 +1,14 @@
+.container {
+  width: 1200px;
+	margin: 0 auto;
+	flex: 1;
+	padding: 25px 50px;
+}
+
+.list {
+	display: flex;
+	flex-direction: row;
+}
+
+
+/* как вариант описание сделать всплывашками, что бы не пугать юзера большим количеством букв*/

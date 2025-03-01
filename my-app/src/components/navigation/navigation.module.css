@@ -1,0 +1,35 @@
+.nav {
+	width: 1200px;
+	margin: 0 auto;
+	/* background-color: #136F63; */
+  /* padding: 0px 40px; */
+
+}
+
+.nav_list {
+	display: flex;
+	flex-direction: row;
+	/* gap: 20px; */
+	justify-content: flex-start;
+}
+
+.list_item {
+	padding: 25px 40px;
+}
+
+/* .list_item:last-child {
+	padding: 25px 0;
+} */
+
+
+/* .item_current {
+	background-color
+} */
+
+.link {
+	color: var(--secondary-color);
+	font-size: 18px;
+	font-weight: 600;
+}
+
+
