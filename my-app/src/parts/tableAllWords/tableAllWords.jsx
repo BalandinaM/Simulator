@@ -25,6 +25,30 @@ const TableAllWords = () => {
 		<div className={styles.container}>
 			<RadioButtonGroup value={valueRadio} onChange={changeHandlerRadio} />
 			<h3>table</h3>
+			<table>
+				<thead>
+					<tr>
+						<th>Английское слово</th>
+						<th>Перевод</th>
+					</tr>
+				</thead>
+				<tbody>
+					{words.length ? (
+						words.map((word) => (
+							<tr key={word.id}>
+								<td>{word.eng ? word.eng : <i>No word</i>}</td>
+								<td>{word.rus ? word.rus : <i>No word</i>}</td>
+							</tr>
+						))
+					) : (
+						<tr>
+							<td colSpan="2">
+								<i>no word here...</i>
+							</td>
+						</tr>
+					)}
+				</tbody>
+			</table>
 		</div>
 	);
 };
