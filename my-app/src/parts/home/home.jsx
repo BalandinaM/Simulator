@@ -21,7 +21,7 @@ const Home = () => {
 
 	return (
 		<section className={styles.container}>
-			<div>
+			{/* <div> */}
 				<h1>{dataHomePage.title}</h1>
 				<p>{dataHomePage.description}</p>
 				<h3>{dataHomePage.advantagesTitle}</h3>
@@ -35,7 +35,7 @@ const Home = () => {
 				<p>{dataHomePage.motivationAdd.description}</p>
 				<NavLink to="/signup">{dataHomePage.motivationAdd.textLink}</NavLink>
 				<span>{dataHomePage.slogan}</span>
-			</div>
+			{/* </div> */}
 		</section>
 	);
 };

@@ -21,7 +21,7 @@ const Navigation = () => {
 					</NavLink>
 				</li>
 				<li className={styles.list_item}>
-					<NavLink to="/listWord" className={styles.link}>
+					<NavLink to="/listWords" className={styles.link}>
 						Список слов
 					</NavLink>
 				</li>

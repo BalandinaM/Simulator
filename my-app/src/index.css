@@ -240,11 +240,11 @@ button:hover {
 input,
 textarea,
 select {
-  width: 100%;
+  /* width: 100%; убрала из-за радиокнопок, да и в целом это не сильно нужно везде */
   padding: 0.5rem;
   border: 1px solid #ccc;
   border-radius: 4px;
-  margin-bottom: 1rem;
+  /* margin-bottom: 1rem; */
 }
 
 input:focus,

@@ -3,8 +3,13 @@ import Footer from "../../components/footer/footer";
 import styles from "./root.module.css";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-
 import Navigation from "../../components/navigation/navigation";
+// import { getWords } from "../../forStorage";
+
+// export async function loader() {
+// 	const words = await getWords();
+// 	return {words};
+// }
 
 const Root = () => {
 	const isAuth = false;
@@ -14,7 +19,8 @@ const Root = () => {
 		if (isAuth) {
 			navigate('/simulator')
 		} else {
-			navigate('/home')
+			//navigate('/home')
+			navigate('/listWords') //временно пока разрабатываю страницу эту
 		}
 	}, [isAuth, navigate])
 

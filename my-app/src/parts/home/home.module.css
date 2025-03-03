@@ -1,8 +1,8 @@
 .container {
   width: 1200px;
 	margin: 0 auto;
-	flex: 1;
-	padding: 25px 50px;
+	/* flex: 1; */
+	padding: 25px 40px;
 }
 
 .list {
