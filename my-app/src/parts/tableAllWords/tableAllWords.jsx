@@ -16,15 +16,27 @@ export async function loader() {
 const TableAllWords = () => {
 	const { words } = useLoaderData();
 	const [valueRadio, setValueRadio] = useState('all');
+	const [isEdit, setIsEdit] = useState(false);
 
 	function changeHandlerRadio(event) {
 		setValueRadio(event.target.value);
 	}
 
+function handleClickDateTable(event) {
+	console.log(event.target)
+	setIsEdit(true);
+}
+
+function handleClickDelete(event) {
+	console.log(event.target)
+}
+
 	return (
 		<div className={styles.container}>
+			<h2>Список слов</h2>
+			<p>В таблицу выведены все ваши слова, вы можете вывести список уже выученных слов, а также список слов которые осталовь выучить</p>
+			<p>Также здесь вы можете внести изменения в ваш словарик, отредактировать или удалить слова. </p>
 			<RadioButtonGroup value={valueRadio} onChange={changeHandlerRadio} />
-			<h3>table</h3>
 			<table>
 				<thead>
 					<tr>
@@ -36,8 +48,14 @@ const TableAllWords = () => {
 					{words.length ? (
 						words.map((word) => (
 							<tr key={word.id}>
-								<td>{word.eng ? word.eng : <i>No word</i>}</td>
-								<td>{word.rus ? word.rus : <i>No word</i>}</td>
+								{!isEdit ?
+									(<td onClick={handleClickDateTable}>{word.eng ? word.eng : <i>No word</i>}</td>) :
+									<input type='text' defaultValue={word.eng}/>
+								}
+
+								<td onClick={handleClickDateTable}>{word.rus ? word.rus : <i>No word</i>}</td>
+								<td>{word.isLearn !== false ? <i>выучить</i> : <i>знаю</i>}</td>
+								<td><button onClick={handleClickDelete}>Удалить</button></td>
 							</tr>
 						))
 					) : (
