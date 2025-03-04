@@ -20,6 +20,7 @@ export async function createWord(dates) { //создание нового сло
 			id: nanoid(4),
 			eng,
 			rus,
+			isLearn: true,
 		}
 	})
 	let words = await getWords();
