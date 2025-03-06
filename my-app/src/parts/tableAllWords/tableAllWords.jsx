@@ -3,6 +3,7 @@ import { useLoaderData } from 'react-router-dom';
 import { getWords } from '../../forStorage';
 import { useState } from 'react';
 import RadioButtonGroup from '../../components/radioButtonGroup/radioButtonGroup';
+import { produce } from "immer";
 
 export async function loader() {
 	const words = await getWords();
@@ -15,27 +16,78 @@ export async function loader() {
 
 const TableAllWords = () => {
 	const { words } = useLoaderData();
-	const [valueRadio, setValueRadio] = useState('all');
-	const [isEdit, setIsEdit] = useState(false);
+	const [valueRadio, setValueRadio] = useState("all");
+	const [wordsState, setWordsState] = useState(words);
+	const [isEditing, setIsEditing] = useState(false);
+	//const [valueInput, setValueInput] = useState('');
 
-	function changeHandlerRadio(event) {
+	const changeHandlerRadio = (event) => {
 		setValueRadio(event.target.value);
-	}
+	};
 
-function handleClickDateTable(event) {
-	console.log(event.target)
-	setIsEdit(true);
-}
+	// const handleChange = (event) => {
+	// 	console.log(event.target.value);
+	// }
 
-function handleClickDelete(event) {
-	console.log(event.target)
-}
+	const handleClickDateTable = (id) => {// обработка двойного клика по яйчейке таблицы
+		if (isEditing) {// если состояние isEditing
+			console.log("editing....");
+			let indexPrevEdit = wordsState.findIndex((word) => word.isEdit === true); //ищем элемент с isEdit: true
+			if (indexPrevEdit !== -1) {
+				setWordsState(
+					produce((draft) => {
+						draft[indexPrevEdit].isEdit = false; //меняем на false
+					})
+				);
+			}
+			setIsEditing(true); // снова устанавливаем isEditing уже для текущего элемента
+			let index = wordsState.findIndex((word) => word.id === id); // ищем его
+			if (index !== -1) {
+				setWordsState(
+					produce((draft) => {
+						draft[index].isEdit = true; // меняем в стейте значение isEdit: true
+					})
+				);
+			}
+		} else {// если в данный момент ни какие поля не редактируются
+			setIsEditing(true);
+			let index = wordsState.findIndex((word) => word.id === id);
+			if (index !== -1) {
+				setWordsState(
+					produce((draft) => {
+						draft[index].isEdit = true;
+					})
+				);
+			}
+		}
+	};  // эта куча кода написана для того чтобы избежать ситуации в которй юзер кликнул по полю, но ни чего в нем не сделал(курсор там не побывал), соответсвенно события onBlur или Enter, уже не сработают
+
+
+
+	const handleClickDelete = (event) => {
+		console.log(event.target);
+	};
+
+	const handleBlur = (id) => {
+		console.log("Курсор покинул поле ввода!", id);
+	};
+
+	const handleKeyDown = (event, id) => {
+		if (event.key === "Enter") {
+			console.log("Нажата клавиша Enter!", id);
+		}
+	};
 
 	return (
 		<div className={styles.container}>
 			<h2>Список слов</h2>
-			<p>В таблицу выведены все ваши слова, вы можете вывести список уже выученных слов, а также список слов которые осталовь выучить</p>
-			<p>Также здесь вы можете внести изменения в ваш словарик, отредактировать или удалить слова. </p>
+			<p>
+				В таблицу выведены все ваши слова, вы можете вывести список уже выученных слов, а также
+				список слов которые осталовь выучить
+			</p>
+			<p>
+				Также здесь вы можете внести изменения в ваш словарик, отредактировать или удалить слова.{" "}
+			</p>
 			<RadioButtonGroup value={valueRadio} onChange={changeHandlerRadio} />
 			<table>
 				<thead>
@@ -45,17 +97,44 @@ function handleClickDelete(event) {
 					</tr>
 				</thead>
 				<tbody>
-					{words.length ? (
-						words.map((word) => (
+					{wordsState.length ? (
+						wordsState.map((word) => (
 							<tr key={word.id}>
-								{!isEdit ?
-									(<td onClick={handleClickDateTable}>{word.eng ? word.eng : <i>No word</i>}</td>) :
-									<input type='text' defaultValue={word.eng}/>
-								}
+								{!word.isEdit ? (
+									<td onDoubleClick={() => handleClickDateTable(word.id)}>
+										{word.eng ? word.eng : <i>No word</i>}
+									</td>
+								) : (
+									<td>
+										<input
+											type="text"
+											//value=""
+											defaultValue={word.eng}
+											onBlur={() => handleBlur(word.id)}
+											onKeyDown={() => handleKeyDown(word.id)}
+											//onChange={handleChange}
+										/>
+									</td>
+								)}
+								{!word.isEdit ? (
+									<td onDoubleClick={() => handleClickDateTable(word.id)}>
+										{word.rus ? word.rus : <i>No word</i>}
+									</td>
+								) : (
+									<td>
+										<input
+											type="text"
+											defaultValue={word.rus}
+											onBlur={() => handleBlur(word.id)}
+											onKeyDown={() => handleKeyDown(word.id)}
+										/>
+									</td>
+								)}
 
-								<td onClick={handleClickDateTable}>{word.rus ? word.rus : <i>No word</i>}</td>
-								<td>{word.isLearn !== false ? <i>выучить</i> : <i>знаю</i>}</td>
-								<td><button onClick={handleClickDelete}>Удалить</button></td>
+								<td>{word.isLearn === false ? <i>выучить</i> : <i>знаю</i>}</td>
+								<td>
+									<button onClick={handleClickDelete}>Удалить</button>
+								</td>
 							</tr>
 						))
 					) : (
@@ -72,17 +151,3 @@ function handleClickDelete(event) {
 };
 
 export default TableAllWords;
-{
-	/* {words.length ? (
-				<div>
-					{words.map((word) => (
-						<>
-							<p>{word.eng ? word.eng : <i>No word</i>}</p>
-							<p>{word.rus ? word.rus : <i>No word</i>}</p>
-						</>
-					))}
-				</div>
-			) : (
-				<p><i>no word here... </i></p>
-			)} */
-}
