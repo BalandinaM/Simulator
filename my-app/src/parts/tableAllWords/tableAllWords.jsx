@@ -1,7 +1,7 @@
 import styles from './tableAllWords.module.css';
 import { useLoaderData } from 'react-router-dom';
 import { getWords } from '../../forStorage';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import RadioButtonGroup from '../../components/radioButtonGroup/radioButtonGroup';
 import { produce } from "immer";
 
@@ -20,14 +20,27 @@ const TableAllWords = () => {
 	const [wordsState, setWordsState] = useState(words);
 	const [isEditing, setIsEditing] = useState(false);
 	//const [valueInput, setValueInput] = useState('');
+	//const inputRef = useRef(null);
 
 	const changeHandlerRadio = (event) => {
 		setValueRadio(event.target.value);
 	};
 
-	// const handleChange = (event) => {
-	// 	console.log(event.target.value);
-	// }
+	const handleChange = (id, event, name) => {
+		//setValueInput(event.target.value)
+		console.log(id)
+		console.log(event.target.value);
+		console.log(name)
+		let newValue = event.target.value;
+		// let index = wordsState.findIndex((word) => word.id === id); // ищем его
+		// 	if (index !== -1) {
+		// 		setWordsState(
+		// 			produce((draft) => {
+		// 				draft[index].isEdit = true; // меняем в стейте значение isEdit: true
+		// 			})
+		// 		);
+		// 	}
+	}
 
 	const handleClickDateTable = (id) => {// обработка двойного клика по яйчейке таблицы
 		if (isEditing) {// если состояние isEditing
@@ -70,6 +83,8 @@ const TableAllWords = () => {
 
 	const handleBlur = (id) => {
 		console.log("Курсор покинул поле ввода!", id);
+
+		handleChange(id,event);
 	};
 
 	const handleKeyDown = (event, id) => {
@@ -108,11 +123,12 @@ const TableAllWords = () => {
 									<td>
 										<input
 											type="text"
-											//value=""
+											//name='eng'
+											//value={word.eng}
 											defaultValue={word.eng}
 											onBlur={() => handleBlur(word.id)}
 											onKeyDown={() => handleKeyDown(word.id)}
-											//onChange={handleChange}
+											onChange={() => handleChange(word.id, event)}
 										/>
 									</td>
 								)}
