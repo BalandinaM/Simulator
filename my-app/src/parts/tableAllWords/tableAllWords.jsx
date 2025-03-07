@@ -18,28 +18,17 @@ const TableAllWords = () => {
 	const { words } = useLoaderData();
 	const [valueRadio, setValueRadio] = useState("all");
 	const [wordsState, setWordsState] = useState(words);
+	//console.log(wordsState);
 	const [isEditing, setIsEditing] = useState(false);
-	//const [valueInput, setValueInput] = useState('');
-	//const inputRef = useRef(null);
 
 	const changeHandlerRadio = (event) => {
 		setValueRadio(event.target.value);
 	};
 
-	const handleChange = (id, event, name) => {
-		//setValueInput(event.target.value)
-		console.log(id)
-		console.log(event.target.value);
-		console.log(name)
+	const handleChange = (wordId, event) => {
+		console.log(wordId)
 		let newValue = event.target.value;
-		// let index = wordsState.findIndex((word) => word.id === id); // ищем его
-		// 	if (index !== -1) {
-		// 		setWordsState(
-		// 			produce((draft) => {
-		// 				draft[index].isEdit = true; // меняем в стейте значение isEdit: true
-		// 			})
-		// 		);
-		// 	}
+		return newValue;
 	}
 
 	const handleClickDateTable = (id) => {// обработка двойного клика по яйчейке таблицы
@@ -81,10 +70,26 @@ const TableAllWords = () => {
 		console.log(event.target);
 	};
 
-	const handleBlur = (id) => {
-		console.log("Курсор покинул поле ввода!", id);
+	const handleBlur = (wordId, parentId) => {
+		console.log("Курсор покинул поле ввода!", wordId);
+		console.log('родительский ид', parentId)
 
-		handleChange(id,event);
+		let newValue = handleChange(wordId,event);
+		let index = wordsState.findIndex((word) => word.id === parentId);
+			if (index !== -1) {
+				setWordsState(
+					produce((draft) => {
+						let changeElem = Object.values(draft[index]).find(
+							(item) => item.idEng === wordId || item.idRus === wordId
+						);
+						if (changeElem.eng) {
+							changeElem.eng = newValue;
+						} else {
+							changeElem.rus = newValue;
+						}
+					})
+				);
+			}
 	};
 
 	const handleKeyDown = (event, id) => {
@@ -117,32 +122,31 @@ const TableAllWords = () => {
 							<tr key={word.id}>
 								{!word.isEdit ? (
 									<td onDoubleClick={() => handleClickDateTable(word.id)}>
-										{word.eng ? word.eng : <i>No word</i>}
+										{word.engWord.eng ? word.engWord.eng : <i>No word</i>}
 									</td>
 								) : (
 									<td>
 										<input
 											type="text"
-											//name='eng'
-											//value={word.eng}
-											defaultValue={word.eng}
-											onBlur={() => handleBlur(word.id)}
-											onKeyDown={() => handleKeyDown(word.id)}
-											onChange={() => handleChange(word.id, event)}
+											defaultValue={word.engWord.eng}
+											onBlur={() => handleBlur(word.engWord.idEng, word.id)}
+											onKeyDown={() => handleKeyDown(word.engWord.idEng, word.id)}
+											onChange={() => handleChange(word.engWord.idEng, event)}
 										/>
 									</td>
 								)}
 								{!word.isEdit ? (
 									<td onDoubleClick={() => handleClickDateTable(word.id)}>
-										{word.rus ? word.rus : <i>No word</i>}
+										{word.rusWord.rus ? word.rusWord.rus : <i>No word</i>}
 									</td>
 								) : (
 									<td>
 										<input
 											type="text"
-											defaultValue={word.rus}
-											onBlur={() => handleBlur(word.id)}
-											onKeyDown={() => handleKeyDown(word.id)}
+											defaultValue={word.rusWord.rus}
+											onBlur={() => handleBlur(word.rusWord.idRus, word.id)}
+											onKeyDown={() => handleKeyDown(word.rusWord.idRus, word.id)}
+											onChange={() => handleChange(word.rusWord.idRus, event)}
 										/>
 									</td>
 								)}

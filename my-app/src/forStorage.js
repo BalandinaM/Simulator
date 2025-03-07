@@ -18,8 +18,8 @@ export async function createWord(dates) { //создание нового сло
 		const [eng, rus] = item.split(' ');
 		return {
 			id: nanoid(4),
-			eng,
-			rus,
+			engWord: {eng, idEng: nanoid(3)},
+			rusWord: {rus, idRus: nanoid(3)},
 			isLearn: false,
 			isEdit: false,
 		}
@@ -28,6 +28,7 @@ export async function createWord(dates) { //создание нового сло
 	for (let i = 0; i < newWordsArr.length; i++) {
 		words.unshift(newWordsArr[i]);
 	}
+	console.log(words)
 	await setWords(words);
 }
 
