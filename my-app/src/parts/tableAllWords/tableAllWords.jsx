@@ -23,13 +23,20 @@ const TableAllWords = () => {
 		setValueRadio(event.target.value);
 	};
 
-	if (valueRadio === 'toLearn' ) {
+	const filterWordsState = (wordsState, valueRadio) => {
+		if (valueRadio === 'toLearn' ) {
 		console.log('выучить!!!!')
+		return wordsState.filter((word) => !word.isLearn)
 	} else if (valueRadio === 'learned') {
 		console.log('ЗНАЮ')
+		return wordsState.filter((word) => word.isLearn);
 	} else if (valueRadio === 'all') {
 		console.log('хочу видеть все')
+		return wordsState;
 	}
+	}
+
+
 
 	const handleChange = (wordId, event) => {
 		let newValue = event.target.value;
@@ -94,6 +101,20 @@ const TableAllWords = () => {
 		}
 	};
 
+	const renderTableRow = (arr) => {
+		return arr.map((word) => (
+			<TableRow
+				key={word.id}
+				word={word}
+				handleClickDateTable={handleClickDateTable}
+				handleBlur={handleBlur}
+				handleKeyDown={handleKeyDown}
+				handleChange={handleChange}
+				handleClickDelete={handleClickDelete}
+			/>
+		))
+	}
+
 	return (
 		<div className={styles.container}>
 			<h2>Список слов</h2>
@@ -114,17 +135,7 @@ const TableAllWords = () => {
 				</thead>
 				<tbody>
 					{wordsState.length ? (
-						wordsState.map((word) => (
-							<TableRow
-                key={word.id}
-                word={word}
-                handleClickDateTable={handleClickDateTable}
-                handleBlur={handleBlur}
-                handleKeyDown={handleKeyDown}
-                handleChange={handleChange}
-                handleClickDelete={handleClickDelete}
-              />
-						))
+						renderTableRow(filterWordsState(wordsState, valueRadio))
 					) : (
 						<tr>
 							<td colSpan="2">

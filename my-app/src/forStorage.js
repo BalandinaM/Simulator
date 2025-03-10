@@ -20,7 +20,7 @@ export async function createWord(dates) { //создание нового сло
 			id: nanoid(4),
 			engWord: {eng, idEng: nanoid(3)},
 			rusWord: {rus, idRus: nanoid(3)},
-			isLearn: false,
+			isLearn: true,
 			isEdit: false,
 		}
 	})
