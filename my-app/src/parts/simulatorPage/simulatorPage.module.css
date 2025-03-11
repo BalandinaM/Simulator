@@ -2,5 +2,34 @@
   width: 1200px;
 	margin: 0 auto;
 	flex: 1;
+	padding: 25px 40px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: stretch;
+	row-gap: 50px;
 }
 
+.wrap_switchTranslete {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+}
+
+.wrap_word {
+	width: 500px;
+	height: 250px;
+	margin: 0 auto;
+	/* background-color: var(--secondary-color); */
+	font-family: var(--font-family);
+	font-size: 120px;
+	font-weight: 900;
+	color: var(--secondary-color);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.wrap_input {
+	margin: 0 auto;
+}

@@ -16,7 +16,6 @@ const TableAllWords = () => {
 	const { words } = useLoaderData();
 	const [valueRadio, setValueRadio] = useState("all");
 	const [wordsState, setWordsState] = useState(words);
-	//console.log(wordsState);
 	const [isEditing, setIsEditing] = useState(false);
 
 	const changeHandlerRadio = (event) => {
@@ -24,19 +23,14 @@ const TableAllWords = () => {
 	};
 
 	const filterWordsState = (wordsState, valueRadio) => {
-		if (valueRadio === 'toLearn' ) {
-		console.log('выучить!!!!')
-		return wordsState.filter((word) => !word.isLearn)
-	} else if (valueRadio === 'learned') {
-		console.log('ЗНАЮ')
-		return wordsState.filter((word) => word.isLearn);
-	} else if (valueRadio === 'all') {
-		console.log('хочу видеть все')
-		return wordsState;
-	}
-	}
-
-
+		if (valueRadio === "toLearn") {
+			return wordsState.filter((word) => !word.isLearn);
+		} else if (valueRadio === "learned") {
+			return wordsState.filter((word) => word.isLearn);
+		} else if (valueRadio === "all") {
+			return wordsState;
+		}
+	};
 
 	const handleChange = (wordId, event) => {
 		let newValue = event.target.value;
