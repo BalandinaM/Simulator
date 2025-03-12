@@ -1,7 +1,7 @@
 //import Textarea from '../../components/textarea/textarea';
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from './newWordPage.module.css'
-import { Form } from "react-router-dom";
+import { Form, useActionData } from "react-router-dom";
 import { createWord } from "../../forStorage";
 
 export async function action({request}) {
@@ -9,11 +9,19 @@ export async function action({request}) {
 	const dates = Object.fromEntries(formData);
 	//console.log(dates.newWords);
 	const word = await createWord(dates);
-	return { word };
+	return {success: true,  word };
 }
 
 const NewWordPage = () => {
 	const [value, setValue] = useState("");
+	const actionData = useActionData();
+
+	// Сброс состояния после успешной отправки
+  useEffect(() => {
+    if (actionData?.success) {
+      setValue(""); // Сбрасываем значение текстового поля
+    }
+  }, [actionData]);
 
 	return (
 		<div className={styles.container}>
@@ -34,7 +42,6 @@ const NewWordPage = () => {
 					rows="15"
 					cols="50"
 				/>
-				{/* <p>{value}</p> */}
 				<button type="submit">Сохранить</button>
 			</Form>
 		</div>
