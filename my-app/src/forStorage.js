@@ -16,29 +16,27 @@ export async function createWord(dates) { //создание нового сло
 	}
 	let newWordsArr = arr.map(item => {
 		const [eng, rus] = item.split(' ');
-		// return {
-		// 	id: nanoid(4),
-		// 	word: {text: eng, isEdit: false, idItem: nanoid(3)},
-		// 	trans: {text: rus, isEdit: false, idItem: nanoid(3)},
-		// 	isLearn: true,
-		// }
 		return {
 			id: nanoid(4),
 			english: eng,
 			russian: rus,
-			isLearn: true,
+			isLearn: false,
 		}
 	})
 	let wordsArray = await getWords();
 	for (let i = 0; i < newWordsArr.length; i++) {
 		wordsArray.unshift(newWordsArr[i]);
 	}
-	//console.log(wordsArray)
 	await setWords(wordsArray);
 }
 
-function setWords(wordsArray) {
-	return localforage.setItem('wordsArray', wordsArray);
+export async function setWords(wordsArray) {
+	try {
+    await localforage.setItem("wordsArray", wordsArray);
+  } catch (error) {
+    console.error("Ошибка при сохранении данных в localforage:", error);
+    throw error;
+  }
 }
 
 let someCache = {};

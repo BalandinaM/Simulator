@@ -1,30 +1,11 @@
 import { useState } from "react";
 
-const TableCell = ({
-	langWord,
-	word,
-	parentId,
-	handleChange,
-	handleBlur,
-	handleKeyDown,
-}) => {
-	const [isEdit, setIsEdit] = useState();
+const TableCell = ({ langWord, word, parentId, handleChange, handleBlur, handleKeyDown }) => {
+	const [isEdit, setIsEdit] = useState(false);
 
-	const handleClickEdit = (langWord, parentId) => {
+	const handleClickEdit = () => {
 		setIsEdit(true);
-		console.log(langWord, parentId)
-		// const index = findIndexById(wordsState, parentId);
-		// if (index !== -1) {
-		// 		setWordsState(
-		// 			produce((draft) => {
-		// 				const editElem = Object.values(draft[index]).find(
-		// 					(item) => item.idItem === idItem
-		// 				);
-		// 				editElem.isEdit = true;
-		// 			})
-		// 		);
-		// 	}
-	}
+	};
 
 	return (
 		<>
@@ -39,14 +20,11 @@ const TableCell = ({
 						defaultValue={word}
 						onChange={() => handleChange(event)}
 						onBlur={() => {
-							//setIsEdit(false);
-							handleBlur(parentId, langWord, setIsEdit)}
-						}
+							handleBlur(parentId, langWord, setIsEdit);
+						}}
 						onKeyDown={() => {
-							handleKeyDown(parentId, langWord, event, setIsEdit)
-							//setIsEdit(false)
-							}
-						}
+							handleKeyDown(parentId, langWord, event, setIsEdit);
+						}}
 					/>
 				</td>
 			)}
@@ -56,15 +34,3 @@ const TableCell = ({
 
 export default TableCell;
 
-// [
-// 	{
-// 		id: ...
-// 		word:
-// 		tran:
-// 	}
-
-// ]
-
-// word tran
-
-// obj[type] = text

@@ -1,10 +1,10 @@
 import styles from "./tableAllWords.module.css";
 import { useLoaderData } from "react-router-dom";
-import { getWords } from "../../forStorage";
+import { getWords, setWords } from "../../forStorage";
 import { useState } from "react";
 import RadioButtonGroup from "../../components/radioButtonGroup/radioButtonGroup";
 import { produce } from "immer";
-import { findIndexById, startEditing, updateWordState, disablePreviousEditing } from "./handleTableActions";
+import { findIndexById } from "./handleTableActions";
 import TableRow from "../../components/tableRow/tableRow";
 
 export async function loader() {
@@ -38,7 +38,7 @@ const TableAllWords = () => {
 		return newValue;
 	};
 
-	const handleBlur = (parentId, langWord, setIsEdit) => {
+	const handleBlur = async (parentId, langWord, setIsEdit) => {
 		setIsEdit(false);
 		let newValue = handleChange(event);
 		const index = findIndexById(wordsState, parentId);
@@ -49,9 +49,10 @@ const TableAllWords = () => {
 				})
 			);
 		}
+		await setWords(wordsState);
 	};
 
-	const handleKeyDown = (parentId, langWord, event, setIsEdit) => {
+	const handleKeyDown = async (parentId, langWord, event, setIsEdit) => {
 		if (event.key === "Enter") {
 			setIsEdit(false);
 			let newValue = handleChange(event);
@@ -64,9 +65,10 @@ const TableAllWords = () => {
 				);
 			}
 		}
+		await setWords(wordsState);
 	};
 
-	const handleClickDelete = (parentId) => {
+	const handleClickDelete = async (parentId) => {
 		let index = findIndexById(wordsState, parentId);
 		if (index !== -1) {
 			setWordsState(
@@ -77,6 +79,7 @@ const TableAllWords = () => {
 				})
 			);
 		}
+		await setWords(wordsState);
 	};
 
 	const renderTableRow = (arr) => {
