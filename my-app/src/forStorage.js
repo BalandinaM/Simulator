@@ -3,9 +3,9 @@ import localforage from 'localforage';
 
 export async function getWords() {// функция для получения слов из хранилища
 	await someNetwork();
-	let words = await localforage.getItem('words');
-	if (!words) words = [];
-	return words;
+	let wordsArray = await localforage.getItem('wordsArray');
+	if (!wordsArray) wordsArray = [];
+	return wordsArray;
 }
 
 export async function createWord(dates) { //создание нового слова и добавление его в хранилище
@@ -16,23 +16,29 @@ export async function createWord(dates) { //создание нового сло
 	}
 	let newWordsArr = arr.map(item => {
 		const [eng, rus] = item.split(' ');
+		// return {
+		// 	id: nanoid(4),
+		// 	word: {text: eng, isEdit: false, idItem: nanoid(3)},
+		// 	trans: {text: rus, isEdit: false, idItem: nanoid(3)},
+		// 	isLearn: true,
+		// }
 		return {
 			id: nanoid(4),
-			word: {text: eng, isEdit: false, idItem: nanoid(3)},
-			trans: {text: rus, isEdit: false, idItem: nanoid(3)},
+			english: eng,
+			russian: rus,
 			isLearn: true,
 		}
 	})
-	let words = await getWords();
+	let wordsArray = await getWords();
 	for (let i = 0; i < newWordsArr.length; i++) {
-		words.unshift(newWordsArr[i]);
+		wordsArray.unshift(newWordsArr[i]);
 	}
-	console.log(words)
-	await setWords(words);
+	//console.log(wordsArray)
+	await setWords(wordsArray);
 }
 
-function setWords(words) {
-	return localforage.setItem('words', words);
+function setWords(wordsArray) {
+	return localforage.setItem('wordsArray', wordsArray);
 }
 
 let someCache = {};

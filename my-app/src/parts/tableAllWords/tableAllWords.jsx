@@ -8,14 +8,14 @@ import { findIndexById, startEditing, updateWordState, disablePreviousEditing } 
 import TableRow from "../../components/tableRow/tableRow";
 
 export async function loader() {
-	const words = await getWords();
-	return { words };
+	const wordsArray = await getWords();
+	return { wordsArray };
 }
 
 const TableAllWords = () => {
-	const { words } = useLoaderData();
+	const { wordsArray } = useLoaderData();
 	const [valueRadio, setValueRadio] = useState("all");
-	const [wordsState, setWordsState] = useState(words);
+	const [wordsState, setWordsState] = useState(wordsArray);
 	//console.log(wordsState);
 
 	const changeHandlerRadio = (event) => {
@@ -24,58 +24,42 @@ const TableAllWords = () => {
 
 	const filterWordsState = (wordsState, valueRadio) => {
 		if (valueRadio === "toLearn") {
-			return wordsState.filter((word) => !word.isLearn);
+			return wordsState.filter((wordItem) => !wordItem.isLearn);
 		} else if (valueRadio === "learned") {
-			return wordsState.filter((word) => word.isLearn);
+			return wordsState.filter((wordItem) => wordItem.isLearn);
 		} else if (valueRadio === "all") {
 			return wordsState;
 		}
 	};
 
-	const handleClickEdit = (parentId, idItem, word) => {
-		console.log(word)
-		const index = findIndexById(wordsState, parentId);
-		if (index !== -1) {
-				setWordsState(
-					produce((draft) => {
-						const editElem = Object.values(draft[index]).find(
-							(item) => item.idItem === idItem
-						);
-						editElem.isEdit = true;
-					})
-				);
-			}
-	}
-
 	const handleChange = (event) => {
 		let newValue = event.target.value;
+		console.log(newValue)
 		return newValue;
 	};
 
-	const handleBlur = (parentId, idItem) => {
+	const handleBlur = (parentId, langWord, setIsEdit) => {
+		setIsEdit(false);
 		let newValue = handleChange(event);
 		const index = findIndexById(wordsState, parentId);
 		if (index !== -1) {
 			setWordsState(
 				produce((draft) => {
-					const editElem = Object.values(draft[index]).find((item) => item.idItem === idItem);
-					editElem.isEdit = false;
-					editElem.text = newValue;
+					draft[index][langWord] = newValue;
 				})
 			);
 		}
 	};
 
-	const handleKeyDown = (parentId, idItem, event) => {
+	const handleKeyDown = (parentId, langWord, event, setIsEdit) => {
 		if (event.key === "Enter") {
+			setIsEdit(false);
 			let newValue = handleChange(event);
 			const index = findIndexById(wordsState, parentId);
 			if (index !== -1) {
 				setWordsState(
 					produce((draft) => {
-						const editElem = Object.values(draft[index]).find((item) => item.idItem === idItem);
-						editElem.isEdit = false;
-						editElem.text = newValue;
+						draft[index][langWord] = newValue;
 					})
 				);
 			}
@@ -96,11 +80,13 @@ const TableAllWords = () => {
 	};
 
 	const renderTableRow = (arr) => {
-		return arr.map((word) => (
+		return arr.map((item) => (
 			<TableRow
-				key={word.id}
-				word={word}
-				handleClickEdit={handleClickEdit}
+				key={item.id}
+				parentId={item.id}
+				wordEnglish={item.english}
+				wordRussian={item.russian}
+				isLearn={item.isLearn}
 				handleChange={handleChange}
 				handleBlur={handleBlur}
 				handleKeyDown={handleKeyDown}

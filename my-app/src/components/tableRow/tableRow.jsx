@@ -2,8 +2,10 @@ import TableCell from "../tableCell/tableCell";
 
 const TableRow = ({
 	id,
-	word,
-	handleClickEdit,
+	wordEnglish,
+	wordRussian,
+	isLearn,
+	parentId,
 	handleChange,
 	handleBlur,
 	handleKeyDown,
@@ -12,24 +14,24 @@ const TableRow = ({
 	return (
 		<tr key={id}>
 			<TableCell
-				word={word.word}
-				handleClickEdit={handleClickEdit}
-				parentId={word.id}
+				langWord='english'
+				word={wordEnglish}
+				parentId={parentId}
 				handleChange={handleChange}
 				handleBlur={handleBlur}
 				handleKeyDown={handleKeyDown}
 			/>
 			<TableCell
-				word={word.trans}
-				handleClickEdit={handleClickEdit}
-				parentId={word.id}
+				langWord='russian'
+				word={wordRussian}
+				parentId={parentId}
 				handleChange={handleChange}
 				handleBlur={handleBlur}
 				handleKeyDown={handleKeyDown}
 			/>
-			<td>{word.isLearn === false ? <i>выучить</i> : <i>знаю</i>}</td>
+			<td>{isLearn === false ? <i>выучить</i> : <i>знаю</i>}</td>
 			<td>
-				<button onClick={() => handleClickDelete(word.id)}>Удалить</button>
+				<button onClick={() => handleClickDelete(parentId)}>Удалить</button>
 			</td>
 		</tr>
 	);
