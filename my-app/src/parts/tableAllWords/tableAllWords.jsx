@@ -32,13 +32,68 @@ const TableAllWords = () => {
 		}
 	};
 
-	const handleClickEdit = (event, isEdit, parentId) => {
-		console.log(event.target)
-		console.log(isEdit);
-		console.log(parentId);
-		isEdit = true;
-		console.log(isEdit);
+	const handleClickEdit = (parentId, idItem, word) => {
+		console.log(word)
+		const index = findIndexById(wordsState, parentId);
+		if (index !== -1) {
+				setWordsState(
+					produce((draft) => {
+						const editElem = Object.values(draft[index]).find(
+							(item) => item.idItem === idItem
+						);
+						editElem.isEdit = true;
+					})
+				);
+			}
 	}
+
+	const handleChange = (event) => {
+		let newValue = event.target.value;
+		return newValue;
+	};
+
+	const handleBlur = (parentId, idItem) => {
+		let newValue = handleChange(event);
+		const index = findIndexById(wordsState, parentId);
+		if (index !== -1) {
+			setWordsState(
+				produce((draft) => {
+					const editElem = Object.values(draft[index]).find((item) => item.idItem === idItem);
+					editElem.isEdit = false;
+					editElem.text = newValue;
+				})
+			);
+		}
+	};
+
+	const handleKeyDown = (parentId, idItem, event) => {
+		if (event.key === "Enter") {
+			let newValue = handleChange(event);
+			const index = findIndexById(wordsState, parentId);
+			if (index !== -1) {
+				setWordsState(
+					produce((draft) => {
+						const editElem = Object.values(draft[index]).find((item) => item.idItem === idItem);
+						editElem.isEdit = false;
+						editElem.text = newValue;
+					})
+				);
+			}
+		}
+	};
+
+	const handleClickDelete = (parentId) => {
+		let index = findIndexById(wordsState, parentId);
+		if (index !== -1) {
+			setWordsState(
+				produce((draft) => {
+					return draft.filter(elem => {
+						return elem.id != parentId
+					})
+				})
+			);
+		}
+	};
 
 	const renderTableRow = (arr) => {
 		return arr.map((word) => (
@@ -46,11 +101,10 @@ const TableAllWords = () => {
 				key={word.id}
 				word={word}
 				handleClickEdit={handleClickEdit}
-				// handleClickDateTable={handleClickDateTable}
-				// handleBlur={handleBlur}
-				// handleKeyDown={handleKeyDown}
-				// handleChange={handleChange}
-				// handleClickDelete={handleClickDelete}
+				handleChange={handleChange}
+				handleBlur={handleBlur}
+				handleKeyDown={handleKeyDown}
+				handleClickDelete={handleClickDelete}
 			/>
 		))
 	}

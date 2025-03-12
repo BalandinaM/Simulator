@@ -16,17 +16,10 @@ export async function createWord(dates) { //создание нового сло
 	}
 	let newWordsArr = arr.map(item => {
 		const [eng, rus] = item.split(' ');
-		// return {
-		// 	id: nanoid(4),
-		// 	engWord: {eng, idEng: nanoid(3)},
-		// 	rusWord: {rus, idRus: nanoid(3)},
-		// 	isLearn: true,
-		// 	isEdit: false,
-		// }
 		return {
 			id: nanoid(4),
-			word: {text: eng, isEdit: false},
-			trans: {text: rus, isEdit: false},
+			word: {text: eng, isEdit: false, idItem: nanoid(3)},
+			trans: {text: rus, isEdit: false, idItem: nanoid(3)},
 			isLearn: true,
 		}
 	})
