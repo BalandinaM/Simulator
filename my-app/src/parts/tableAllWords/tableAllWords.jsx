@@ -12,6 +12,8 @@ export async function loader() {
 	return { wordsArray };
 }
 
+// подумать над валидацией инпутов
+
 const TableAllWords = () => {
 	const { wordsArray } = useLoaderData();
 	const [valueRadio, setValueRadio] = useState("all");
