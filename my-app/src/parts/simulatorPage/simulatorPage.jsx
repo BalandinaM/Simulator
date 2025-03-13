@@ -3,6 +3,7 @@ import styles from './simulatorPage.module.css';
 import { useLoaderData } from 'react-router-dom';
 import { getWords } from "../../forStorage";
 import { useState } from "react";
+import TranslationDirectionSwitcher from '../../components/translationDirectionSwitcher/translationDirectionSwitcher';
 
 export async function loader() {
 	const words = await getWords();
@@ -17,11 +18,12 @@ const SimulatorPage = () => {
 
 	return (
 		<div className={styles.container}>
-			<div className={styles.wrap_switchTranslete}>
+			<TranslationDirectionSwitcher transIntoRu={transIntoRu} setTransIntoRu={setTransIntoRu}/>
+			{/* <div className={styles.wrap_switchTranslete}>
 				{transIntoRu ? <p>Английский</p> : <p>Русский</p>}
 				<button onClick={() => setTransIntoRu(!transIntoRu)}>Сменить направление перевода</button>
 				{!transIntoRu ? <p>Английский</p> : <p>Русский</p>}
-			</div>
+			</div> */}
 			<div className={styles.wrap_word}>
 				<p>WORD</p>
 			</div>

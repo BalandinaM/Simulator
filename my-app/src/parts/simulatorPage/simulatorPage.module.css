@@ -10,11 +10,11 @@
 	row-gap: 50px;
 }
 
-.wrap_switchTranslete {
+/* .wrap_switchTranslete {
 	display: flex;
 	flex-direction: row;
 	justify-content: space-around;
-}
+} */
 
 .wrap_word {
 	width: 500px;
