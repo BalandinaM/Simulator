@@ -19,11 +19,6 @@ const SimulatorPage = () => {
 	return (
 		<div className={styles.container}>
 			<TranslationDirectionSwitcher transIntoRu={transIntoRu} setTransIntoRu={setTransIntoRu}/>
-			{/* <div className={styles.wrap_switchTranslete}>
-				{transIntoRu ? <p>Английский</p> : <p>Русский</p>}
-				<button onClick={() => setTransIntoRu(!transIntoRu)}>Сменить направление перевода</button>
-				{!transIntoRu ? <p>Английский</p> : <p>Русский</p>}
-			</div> */}
 			<div className={styles.wrap_word}>
 				<p>WORD</p>
 			</div>
