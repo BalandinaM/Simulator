@@ -11,15 +11,16 @@ export async function loader() {
 
 const SimulatorPage = () => {
 	const { words } = useLoaderData();
-	const [transIntoRu, setTransIntoRu] = useState('true');
+	const [transIntoRu, setTransIntoRu] = useState(true);
 	console.log(words);
+
 
 	return (
 		<div className={styles.container}>
 			<div className={styles.wrap_switchTranslete}>
-				<p>Английский</p>
-				<button>Сменить направление перевода</button>
-				<p>Русский</p>
+				{transIntoRu ? <p>Английский</p> : <p>Русский</p>}
+				<button onClick={() => setTransIntoRu(!transIntoRu)}>Сменить направление перевода</button>
+				{!transIntoRu ? <p>Английский</p> : <p>Русский</p>}
 			</div>
 			<div className={styles.wrap_word}>
 				<p>WORD</p>
