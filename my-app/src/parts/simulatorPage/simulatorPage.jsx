@@ -14,7 +14,7 @@ export async function loader() {
 
 const SimulatorPage = () => {
 	const { wordsArray } = useLoaderData();
-	const draftWordsStateRef = useRef(wordsArray)
+	const draftWordsStateRef = useRef(wordsArray);
 	//const [wordsState, setWordsState] = useState(wordsArray);
 	const [transIntoRu, setTransIntoRu] = useState(true);
 	const [currentPairOfWords, setCurrentPairOfWords] = useState(null);
@@ -28,93 +28,62 @@ const SimulatorPage = () => {
 		return array[randomIndex];
 	};
 
+	//меняет статус слова в памяти приложения
 	const toggleLearnStatus = (id, boolean) => {
-		//меняет статус слова
 		const index = findIndexById(draftWordsStateRef.current, id);
 		if (index != -1) {
 			draftWordsStateRef.current = produce(draftWordsStateRef.current, (draft) => {
-					draft[index].isLearn = boolean;
-				})
+				draft[index].isLearn = boolean;
+			});
 		}
 	};
 
+	//начать тренажер
 	const startTraining = () => {
-		//начать тренажер
-		console.log(wordsArray);
 		if (wordsArray.length > 0) {
 			setCurrentPairOfWords(getRandomPair(wordsArray.filter((item) => item.isLearn === false)));
 		}
 	};
 
+	//обработка ввода в инпут
 	const handleInputChange = (event) => {
-		//обработка ввода в инпут
 		setInputValue(event.target.value);
 	};
 
-	//let counterDisplayedWords = 0;
-	//console.log(counterDisplayedWords);
+	//обработка правильного ответа
+	const handleCorrectAnswer = () => {
+		setIsError(false);
+		setInputValue("");
+		const learnedWords = wordsArray.filter((item) => item.isLearn === true);
 
-	const handleCheckButtonClick = () => {
-		//кнопка проверки введенного значения
-		setCounterDisplayedWords(counterDisplayedWords + 1);
-		console.log(counterDisplayedWords);
-		if (transIntoRu) {
-			if (inputValue.trim().toLowerCase() === currentPairOfWords.russian) {
-				console.log(currentPairOfWords.isLearn);
-				//console.log(wordsState);
-				if (isError) {
-					//если до этого была ошибка, а следом введено правильное значение
-					setIsError(false); //убираем ошибку
-					setInputValue(""); //сборос инпута
-					if (counterDisplayedWords > 5) {
-						setCounterDisplayedWords(0);
-						setCurrentPairOfWords(
-							getRandomPair(wordsArray.filter((item) => item.isLearn === true))
-						);
-					} else {
-						setCurrentPairOfWords(
-							getRandomPair(wordsArray.filter((item) => item.isLearn === false))
-						); //новая пара слов
-					}
-				} else {
-					//если ошибки не было
-					setInputValue("");
-					if (counterDisplayedWords > 5) {
-						setCounterDisplayedWords(0);
-						setCurrentPairOfWords(
-							getRandomPair(wordsArray.filter((item) => item.isLearn === true))
-						);
-					} else {
-						setCurrentPairOfWords(
-							getRandomPair(wordsArray.filter((item) => item.isLearn === false))
-						); //новая пара слов
-						toggleLearnStatus(currentPairOfWords.id, true); //меняем статус isLearn
-					}
-				}
-			} else {
-				console.log("ошибка!");
-				setIsError(true);
-				toggleLearnStatus(currentPairOfWords.id, false); //меняем статус isLearn
-			}
+		if (learnedWords.length === 0 || counterDisplayedWords <= 5) {
+			setCurrentPairOfWords(getRandomPair(wordsArray.filter((item) => item.isLearn === false)));
+			toggleLearnStatus(currentPairOfWords.id, true);
 		} else {
-			if (inputValue.trim().toLowerCase() === currentPairOfWords.english) {
-				//console.log("верно");
-				if (isError) {
-					//если до этого была ошибка, а следом введено правильное значение
-					setIsError(false); //убираем ошибку
-					setInputValue(""); //сборос инпута
-					setCurrentPairOfWords(getRandomPair(wordsArray.filter((item) => item.isLearn === false))); //новая пара слов
-				} else {
-					//если ошибки не было
-					setInputValue("");
-					setCurrentPairOfWords(getRandomPair(wordsArray.filter((item) => item.isLearn === false)));
-					toggleLearnStatus(currentPairOfWords.id, true); //меняем статус isLearn
-				}
-			} else {
-				console.log("ошибка!");
-				setIsError(true);
-				toggleLearnStatus(currentPairOfWords.id, false); //меняем статус isLearn
-			}
+			setCounterDisplayedWords(0);
+			setCurrentPairOfWords(getRandomPair(learnedWords));
+		}
+	};
+
+	//обработка неправильного ответа
+	const handleIncorrectAnswer = () => {
+		console.log("ошибка!");
+		setIsError(true);
+		toggleLearnStatus(currentPairOfWords.id, false);
+	};
+
+	//
+	const handleCheckButtonClick = () => {
+		setCounterDisplayedWords(counterDisplayedWords + 1);
+
+		const isCorrect = transIntoRu
+			? inputValue.trim().toLowerCase() === currentPairOfWords.russian
+			: inputValue.trim().toLowerCase() === currentPairOfWords.english;
+
+		if (isCorrect) {
+			handleCorrectAnswer();
+		} else {
+			handleIncorrectAnswer();
 		}
 	};
 
@@ -122,7 +91,6 @@ const SimulatorPage = () => {
 		await setWords(draftWordsStateRef.current);
 		console.log("изменения отправлены");
 	}
-
 
 	//возможно эту функцию стоит перенести в список слов
 	async function resetProgress() {
@@ -134,8 +102,8 @@ const SimulatorPage = () => {
 			draftWordsStateRef.current = produce(draftWordsStateRef.current, (draft) => {
 				draft.forEach((elem) => {
 					elem.isLearn = false;
-				})
-			})
+				});
+			});
 			await setWords(draftWordsStateRef.current);
 			console.log("прогресс обнулен");
 		}
