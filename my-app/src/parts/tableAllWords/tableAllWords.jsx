@@ -70,7 +70,7 @@ const TableAllWords = () => {
 		await setWords(wordsState);
 	};
 
-	const handleClickDelete = async (parentId) => {
+	async function handleClickDelete(parentId) {
 		let index = findIndexById(wordsState, parentId);
 		if (index !== -1) {
 			setWordsState(
@@ -81,7 +81,10 @@ const TableAllWords = () => {
 				})
 			);
 		}
+
 		await setWords(wordsState);
+		console.log(wordsState)
+		console.log('элемент удален!')
 	};
 
 	const renderTableRow = (arr) => {

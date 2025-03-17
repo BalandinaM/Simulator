@@ -33,3 +33,22 @@
 .wrap_input {
 	margin: 0 auto;
 }
+
+input:disabled {
+  background-color: #f0f0f0;
+  cursor: not-allowed;
+}
+
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.input {
+	border-color: green;
+}
+
+.input_error {
+	border-color: var(--error-color);
+	color: var(--error-color);
+}
