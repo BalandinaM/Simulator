@@ -36,7 +36,7 @@ const TableAllWords = () => {
 
 	const handleChange = (event) => {
 		let newValue = event.target.value;
-		console.log(newValue)
+		console.log(newValue);
 		return newValue;
 	};
 
@@ -72,20 +72,18 @@ const TableAllWords = () => {
 
 	async function handleClickDelete(parentId) {
 		let index = findIndexById(wordsState, parentId);
-		if (index !== -1) {
-			setWordsState(
-				produce((draft) => {
-					return draft.filter(elem => {
-						return elem.id != parentId
-					})
-				})
-			);
-		}
 
-		await setWords(wordsState);
-		console.log(wordsState)
-		console.log('элемент удален!')
-	};
+		if (index !== -1) {
+			const updatedWordsState = produce(wordsState, (draft) => {
+				return draft.filter((elem) => elem.id !== parentId);
+			});
+			setWordsState(updatedWordsState);
+			await setWords(updatedWordsState);
+
+			console.log(updatedWordsState);
+			console.log("элемент удален!");
+		}
+	}
 
 	const renderTableRow = (arr) => {
 		return arr.map((item) => (
@@ -100,8 +98,8 @@ const TableAllWords = () => {
 				handleKeyDown={handleKeyDown}
 				handleClickDelete={handleClickDelete}
 			/>
-		))
-	}
+		));
+	};
 
 	return (
 		<div className={styles.container}>
