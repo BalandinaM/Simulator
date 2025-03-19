@@ -227,10 +227,14 @@ a:hover {
 
 /* Кнопки */
 button {
+	font-family: var(--second-family);
+	font-weight: 600;
+	font-size: 18px;
   background-color: var(--primary-color);
   color: white;
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
+  /* padding: 0.5rem 1rem; */
+	padding: 10px 20px;
+  border-radius: 5px;
   transition: background-color 0.3s ease;
 }
 

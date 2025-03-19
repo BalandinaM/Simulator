@@ -1,5 +1,5 @@
 import styles from "./tableAllWords.module.css";
-import { useLoaderData } from "react-router-dom";
+import { NavLink, useLoaderData } from "react-router-dom";
 import { getWords, setWords } from "../../forStorage";
 import { useState } from "react";
 import RadioButtonGroup from "../../components/radioButtonGroup/radioButtonGroup";
@@ -12,13 +12,13 @@ export async function loader() {
 	return { wordsArray };
 }
 
-// подумать над валидацией инпутов
+// подумать над валидацией инпутоd!!!!!!!!!!!!!!!!!!!
+
 
 const TableAllWords = () => {
 	const { wordsArray } = useLoaderData();
 	const [valueRadio, setValueRadio] = useState("all");
 	const [wordsState, setWordsState] = useState(wordsArray);
-	//console.log(wordsState);
 
 	const changeHandlerRadio = (event) => {
 		setValueRadio(event.target.value);
@@ -79,9 +79,6 @@ const TableAllWords = () => {
 			});
 			setWordsState(updatedWordsState);
 			await setWords(updatedWordsState);
-
-			console.log(updatedWordsState);
-			console.log("элемент удален!");
 		}
 	}
 
@@ -116,36 +113,43 @@ const TableAllWords = () => {
 	return (
 		<div className={styles.container}>
 			<h2 className={styles.visually_hidden}>Список слов</h2>
-			{/* <p>
-				В таблицу выведены все ваши слова, вы можете вывести список уже выученных слов, а также
-				список слов которые осталось выучить.
-			</p> */}
 			<p>
-				Здесь вы можете внести изменения в ваш словарик, отредактировать или удалить слова. <br/> Для редактирования слова необходимо два раза кликнуть левой кнопкой мыши по слову. <br/> Для сохранения внесенных изменений нажать клавишу Enter или кликнуть мышью в любом месте экрана. <br/> А также сбросить прогресс и начать обучение заново.
+				Здесь вы можете внести изменения в ваш словарик, отредактировать или удалить слова. <br />
+				Для редактирования слова необходимо два раза кликнуть левой кнопкой мыши по слову. <br />
+				Для сохранения внесенных изменений нажать клавишу Enter или кликнуть мышью в любом месте
+				экрана. <br /> А также сбросить прогресс и начать обучение заново.
 			</p>
 			<RadioButtonGroup value={valueRadio} onChange={changeHandlerRadio} />
-			<table className={styles.table}>
-				<thead>
-					<tr className={styles.trHead}>
-						<th>Английское слово</th>
-						<th>Перевод</th>
-						<th>Статус</th>
-						<th></th>
-					</tr>
-				</thead>
-				<tbody>
-					{wordsState.length ? (
-						renderTableRow(filterWordsState(wordsState, valueRadio))
+			{filterWordsState(wordsState, valueRadio).length > 0 ? (
+				<>
+					<table className={styles.table}>
+						<thead>
+							<tr className={styles.trHead}>
+								<th className={styles.thForWord}>Английское слово</th>
+								<th className={styles.thForWord}>Перевод</th>
+								<th className={styles.th}>Статус</th>
+								<th className={styles.th}></th>
+							</tr>
+						</thead>
+						<tbody>{renderTableRow(filterWordsState(wordsState, valueRadio))}</tbody>
+					</table>
+					<button onClick={resetProgress} className={styles.buttonReset}>
+						Сбросить прогресс
+					</button>
+				</>
+			) : (
+				<div className={styles.message}>
+					{valueRadio === "learned" ? (
+						<i>Вы еще не выучили ни одного слова</i>
+					) : valueRadio === "toLearn" ? (
+						<i>Вы выучили все слова</i>
 					) : (
-						<tr>
-							<td colSpan="4">
-								<i>no word here...</i>
-							</td>
-						</tr>
+						<i>
+							Вы еще не добавили слова в список, это можно сделать <NavLink to="/newWord" className={styles.link}>тут</NavLink>.
+						</i>
 					)}
-				</tbody>
-			</table>
-			<button onClick={resetProgress}>Сбросить прогресс</button>
+				</div>
+			)}
 		</div>
 	);
 };

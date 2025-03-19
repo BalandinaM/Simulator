@@ -32,7 +32,7 @@ const TableRow = ({
 				handleKeyDown={handleKeyDown}
 			/>
 			<td className={styles.cell}>{isLearn === false ? <i>в процессе</i> : <i>знаю</i>}</td>
-			<td className={styles.cell}>
+			<td className={styles.cell_forButton}>
 				<button onClick={() => handleClickDelete(parentId)}><TrashIcon/></button>
 			</td>
 		</tr>
