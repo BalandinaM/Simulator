@@ -1,35 +1,40 @@
 .nav {
 	width: 1200px;
 	margin: 0 auto;
-	/* background-color: #136F63; */
-  /* padding: 0px 40px; */
-
 }
 
 .nav_list {
 	display: flex;
 	flex-direction: row;
-	/* gap: 20px; */
 	justify-content: flex-start;
 }
 
 .list_item {
-	padding: 25px 40px;
+	padding: 20px 20px;
 }
 
-/* .list_item:last-child {
-	padding: 25px 0;
-} */
-
-
-/* .item_current {
-	background-color
-} */
-
 .link {
-	color: var(--secondary-color);
-	font-size: 18px;
-	font-weight: 600;
+	color: var(--primary-color);
+	font-family: var(--second-family);
+	font-size: 22px;
+	font-weight: 700;
+	display: inline-block;
+	padding: 10px 30px;
+  background-color: var(--background-color);
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.link:hover {
+	background-color: var(--primary-color);
+	background-color: rgba(19, 111, 99, 0.7);
+	background-color: var(--accent-color)
+}
+
+.link_current {
+	color: var(--background-color);
+	background-color: var(--primary-color);
 }
 
 

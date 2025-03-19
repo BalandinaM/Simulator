@@ -1,4 +1,6 @@
 import TableCell from "../tableCell/tableCell";
+import TrashIcon from "../trashIcon/trashIcon";
+import styles from './tableRow.module.css';
 
 const TableRow = ({
 	id,
@@ -29,9 +31,9 @@ const TableRow = ({
 				handleBlur={handleBlur}
 				handleKeyDown={handleKeyDown}
 			/>
-			<td>{isLearn === false ? <i>выучить</i> : <i>знаю</i>}</td>
-			<td>
-				<button onClick={() => handleClickDelete(parentId)}>Удалить</button>
+			<td className={styles.cell}>{isLearn === false ? <i>в процессе</i> : <i>знаю</i>}</td>
+			<td className={styles.cell}>
+				<button onClick={() => handleClickDelete(parentId)}><TrashIcon/></button>
 			</td>
 		</tr>
 	);

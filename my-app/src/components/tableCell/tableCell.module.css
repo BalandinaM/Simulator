@@ -1,0 +1,13 @@
+.input {
+	width: 240px;
+}
+
+
+.cellForWord {
+	width: 280px;
+}
+
+.cellForWord:hover {
+	font-size: 20px;
+	font-weight: 600;
+}

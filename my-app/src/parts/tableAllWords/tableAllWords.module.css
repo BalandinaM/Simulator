@@ -1,5 +1,39 @@
+.visually_hidden {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	padding: 0;
+	overflow: hidden;
+	clip-path: inset(100%);
+	clip: rect(0 0 0 0);
+	border: 0;
+}
+
 .container {
   width: 1200px;
 	margin: 0 auto;
-	padding: 25px 40px;
+	padding: 0 40px;
 }
+
+.table {
+	/* border: 0.5px solid var(--accent-color); */
+	border-radius: 5px;
+	width: 100%;
+	height: auto;
+	margin: 0 auto;
+	padding: 20px 40px;
+	background-color: rgba(62, 47, 91, 0.05);
+	/* border-collapse: collapse; */
+}
+
+.trHead {
+	text-align: left;
+	font-size: 22px;
+}
+
+.trHead th {
+	padding-bottom: 20px;
+}
+
+

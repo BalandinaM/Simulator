@@ -6,22 +6,22 @@ const Navigation = () => {
 		<nav className={styles.nav}>
 			<ul className={styles.nav_list}>
 				<li className={styles.list_item}>
-					<NavLink to="/home" className={styles.link}>
+					<NavLink to="/home" className={({isActive}) => isActive ? `${styles.link} ${styles.link_current}` : styles.link}>
 						Главная
 					</NavLink>
 				</li>
 				<li className={styles.list_item}>
-					<NavLink to="/newWord" className={styles.link}>
+					<NavLink to="/newWord" className={({isActive}) => isActive ? `${styles.link} ${styles.link_current}` : styles.link}>
 						Ввод новых слов
 					</NavLink>
 				</li>
 				<li className={styles.list_item}>
-					<NavLink to="/simulator" className={styles.link}>
+					<NavLink to="/simulator" className={({isActive}) => isActive ? `${styles.link} ${styles.link_current}` : styles.link}>
 						Тренажер
 					</NavLink>
 				</li>
 				<li className={styles.list_item}>
-					<NavLink to="/listWords" className={styles.link}>
+					<NavLink to="/listWords" className={({isActive}) => isActive ? `${styles.link} ${styles.link_current}` : styles.link}>
 						Список слов
 					</NavLink>
 				</li>

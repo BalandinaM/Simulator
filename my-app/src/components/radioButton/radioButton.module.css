@@ -1,7 +1,31 @@
+.hiddenRadio {
+	position: absolute;
+	opacity: 0;
+	width: 0;
+	height: 0;
+	margin: 0;
+	padding: 0;
+}
+
 .label {
-	display: flex;
-	flex-direction: row;
-	justify-content: start;
-	align-items: center;
-	gap: 10px;
+	font-family: var(--second-family);
+	font-weight: 600;
+	font-size: 18px;
+	color: var(--primary-color);
+	display: inline-block;
+  padding: 10px 20px;
+  background-color: var(--background-color);
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.checked {
+	color: var(--background-color);
+	background-color: var(--primary-color);
+}
+
+.label:hover {
+	color: var(--background-color);
+	background-color: var(--accent-color);
 }

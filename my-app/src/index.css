@@ -154,7 +154,7 @@ legend {
   --background-color: #F5F5F5;
   --font-family: 'Montserrat', sans-serif;
 	--second-family: 'Lato', sans-serif;
-  --font-size: 16px;
+  --font-size: 18px;
   --line-height: 1.6;
 }
 
@@ -163,7 +163,7 @@ body {
   font-family: var(--font-family);
   font-size: var(--font-size);
   line-height: var(--line-height);
-  color: var(--text-color);
+  color: var(--secondary-color);
   background-color: var(--background-color);
 
   /* display: flex; */
@@ -209,8 +209,10 @@ h6 {
 
 /* Параграфы */
 p {
-	font-family: var(--second-family);
+	font-family: var(--font-family);
+	font-weight: 500;
   margin: 0 0 1rem 0;
+	font-size: 18px;
 }
 
 /* Ссылки */
@@ -220,7 +222,7 @@ a {
 }
 
 a:hover {
-  color: var(--accent-color);
+  color: var(--background-color);
 }
 
 /* Кнопки */

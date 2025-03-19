@@ -20,7 +20,7 @@ const Root = () => {
 			navigate('/simulator')
 		} else {
 			//navigate('/home')
-			navigate('/simulator') //временно пока разрабатываю страницу эту
+			navigate('/listWords') //временно пока разрабатываю страницу эту
 		}
 	}, [isAuth, navigate])
 

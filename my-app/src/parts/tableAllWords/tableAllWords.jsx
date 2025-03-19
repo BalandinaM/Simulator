@@ -85,6 +85,18 @@ const TableAllWords = () => {
 		}
 	}
 
+	async function resetProgress() {
+		if (window.confirm("Вы уверены, что хотите сбросить прогресс? Это действие необратимо.")) {
+			const updatedWordsState = produce(wordsState, (draft) => {
+				draft.forEach((elem) => {
+					elem.isLearn = false;
+				});
+			});
+			setWordsState(updatedWordsState);
+			await setWords(updatedWordsState);
+		}
+	}
+
 	const renderTableRow = (arr) => {
 		return arr.map((item) => (
 			<TableRow
@@ -103,20 +115,22 @@ const TableAllWords = () => {
 
 	return (
 		<div className={styles.container}>
-			<h2>Список слов</h2>
-			<p>
+			<h2 className={styles.visually_hidden}>Список слов</h2>
+			{/* <p>
 				В таблицу выведены все ваши слова, вы можете вывести список уже выученных слов, а также
-				список слов которые осталовь выучить
-			</p>
+				список слов которые осталось выучить.
+			</p> */}
 			<p>
-				Также здесь вы можете внести изменения в ваш словарик, отредактировать или удалить слова.{" "}
+				Здесь вы можете внести изменения в ваш словарик, отредактировать или удалить слова. <br/> Для редактирования слова необходимо два раза кликнуть левой кнопкой мыши по слову. <br/> Для сохранения внесенных изменений нажать клавишу Enter или кликнуть мышью в любом месте экрана. <br/> А также сбросить прогресс и начать обучение заново.
 			</p>
 			<RadioButtonGroup value={valueRadio} onChange={changeHandlerRadio} />
-			<table>
+			<table className={styles.table}>
 				<thead>
-					<tr>
+					<tr className={styles.trHead}>
 						<th>Английское слово</th>
 						<th>Перевод</th>
+						<th>Статус</th>
+						<th></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -131,6 +145,7 @@ const TableAllWords = () => {
 					)}
 				</tbody>
 			</table>
+			<button onClick={resetProgress}>Сбросить прогресс</button>
 		</div>
 	);
 };

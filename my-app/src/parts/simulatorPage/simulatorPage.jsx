@@ -93,21 +93,21 @@ const SimulatorPage = () => {
 	}
 
 	//возможно эту функцию стоит перенести в список слов
-	async function resetProgress() {
-		if (
-			window.confirm(
-				"Вы уверены, что хотите сбросить прогресс? Это действие необратимо — все данные будут удалены без возможности восстановления."
-			)
-		) {
-			draftWordsStateRef.current = produce(draftWordsStateRef.current, (draft) => {
-				draft.forEach((elem) => {
-					elem.isLearn = false;
-				});
-			});
-			await setWords(draftWordsStateRef.current);
-			console.log("прогресс обнулен");
-		}
-	}
+	// async function resetProgress() {
+	// 	if (
+	// 		window.confirm(
+	// 			"Вы уверены, что хотите сбросить прогресс? Это действие необратимо — все данные будут удалены без возможности восстановления."
+	// 		)
+	// 	) {
+	// 		draftWordsStateRef.current = produce(draftWordsStateRef.current, (draft) => {
+	// 			draft.forEach((elem) => {
+	// 				elem.isLearn = false;
+	// 			});
+	// 		});
+	// 		await setWords(draftWordsStateRef.current);
+	// 		console.log("прогресс обнулен");
+	// 	}
+	// }
 
 	return (
 		<div className={styles.container}>
@@ -136,7 +136,7 @@ const SimulatorPage = () => {
 				</button>
 			</div>
 			<button onClick={saveProgress}>Сохранить прогресс</button>
-			<button onClick={resetProgress}>Сбросить весь прогресс</button>
+			{/* <button onClick={resetProgress}>Сбросить весь прогресс</button> */}
 		</div>
 	);
 };
