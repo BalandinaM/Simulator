@@ -40,19 +40,19 @@ const TableAllWords = () => {
 		return newValue;
 	};
 
-	const handleBlur = async (parentId, langWord, setIsEdit) => {
-		setIsEdit(false);
-		let newValue = handleChange(event);
-		const index = findIndexById(wordsState, parentId);
-		if (index !== -1) {
-			setWordsState(
-				produce((draft) => {
-					draft[index][langWord] = newValue;
-				})
-			);
-		}
-		await setWords(wordsState);
-	};
+	// const handleBlur = async (parentId, langWord, setIsEdit) => {
+	// 	setIsEdit(false);
+	// 	let newValue = handleChange(event);
+	// 	const index = findIndexById(wordsState, parentId);
+	// 	if (index !== -1) {
+	// 		setWordsState(
+	// 			produce((draft) => {
+	// 				draft[index][langWord] = newValue;
+	// 			})
+	// 		);
+	// 	}
+	// 	await setWords(wordsState);
+	// };
 
 	const handleKeyDown = async (parentId, langWord, event, setIsEdit) => {
 		if (event.key === "Enter") {
@@ -103,7 +103,7 @@ const TableAllWords = () => {
 				wordRussian={item.russian}
 				isLearn={item.isLearn}
 				handleChange={handleChange}
-				handleBlur={handleBlur}
+				//handleBlur={handleBlur}
 				handleKeyDown={handleKeyDown}
 				handleClickDelete={handleClickDelete}
 			/>
@@ -116,8 +116,8 @@ const TableAllWords = () => {
 			<p>
 				Здесь вы можете внести изменения в ваш словарик, отредактировать или удалить слова. <br />
 				Для редактирования слова необходимо два раза кликнуть левой кнопкой мыши по слову. <br />
-				Для сохранения внесенных изменений нажать клавишу Enter или кликнуть мышью в любом месте
-				экрана. <br /> А также сбросить прогресс и начать обучение заново.
+				Для сохранения внесенных изменений нажать клавишу Enter. <br />
+				А также сбросить прогресс и начать обучение заново.
 			</p>
 			<RadioButtonGroup value={valueRadio} onChange={changeHandlerRadio} />
 			{filterWordsState(wordsState, valueRadio).length > 0 ? (

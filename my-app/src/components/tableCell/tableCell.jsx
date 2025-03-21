@@ -1,7 +1,14 @@
 import { useState } from "react";
-import styles from './tableCell.module.css';
+import styles from "./tableCell.module.css";
 
-const TableCell = ({ langWord, word, parentId, handleChange, handleBlur, handleKeyDown }) => {
+const TableCell = ({
+	langWord,
+	word,
+	parentId,
+	handleChange,
+	//handleBlur,
+	handleKeyDown,
+}) => {
 	const [isEdit, setIsEdit] = useState(false);
 
 	const handleClickEdit = () => {
@@ -11,7 +18,10 @@ const TableCell = ({ langWord, word, parentId, handleChange, handleBlur, handleK
 	return (
 		<>
 			{!isEdit ? (
-				<td onDoubleClick={() => handleClickEdit(langWord, parentId)} className={styles.cellForWord}>
+				<td
+					onDoubleClick={() => handleClickEdit(langWord, parentId)}
+					className={styles.cellForWord}
+				>
 					{word ? word : <i>No word</i>}
 				</td>
 			) : (
@@ -21,9 +31,7 @@ const TableCell = ({ langWord, word, parentId, handleChange, handleBlur, handleK
 						type="text"
 						defaultValue={word}
 						onChange={() => handleChange(event)}
-						onBlur={() => {
-							handleBlur(parentId, langWord, setIsEdit);
-						}}
+						onBlur={() => setIsEdit(false)}
 						onKeyDown={() => {
 							handleKeyDown(parentId, langWord, event, setIsEdit);
 						}}
@@ -35,4 +43,3 @@ const TableCell = ({ langWord, word, parentId, handleChange, handleBlur, handleK
 };
 
 export default TableCell;
-
