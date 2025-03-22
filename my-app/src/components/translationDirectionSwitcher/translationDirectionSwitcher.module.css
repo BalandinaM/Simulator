@@ -4,8 +4,8 @@
 	gap: 50px;
 	align-items: center;
 	font-family: var(--font-family);
-    font-weight: 500;
-    font-size: 18px;
+  font-weight: 500;
+  font-size: 18px;
 }
 
 .leftSpan {

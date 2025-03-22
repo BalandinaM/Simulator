@@ -12,6 +12,8 @@ export async function loader() {
 	return { wordsArray };
 }
 
+//надо создать состояние isTraining, что бы если его
+
 const SimulatorPage = () => {
 	const { wordsArray } = useLoaderData();
 	const draftWordsStateRef = useRef(wordsArray);
@@ -88,8 +90,8 @@ const SimulatorPage = () => {
 	};
 
 	async function saveProgress() {
+		setCurrentPairOfWords(null)
 		await setWords(draftWordsStateRef.current);
-		console.log("изменения отправлены");
 	}
 
 	//возможно эту функцию стоит перенести в список слов
