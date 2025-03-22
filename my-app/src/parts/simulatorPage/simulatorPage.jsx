@@ -115,9 +115,9 @@ const SimulatorPage = () => {
 			<div className={styles.wrap_word}>
 				{currentPairOfWords ? (
 					transIntoRu ? (
-						<p>{currentPairOfWords.english}</p>
+						<p className={styles.card_word}>{currentPairOfWords.english}</p>
 					) : (
-						<p>{currentPairOfWords.russian}</p>
+						<p className={styles.card_word}>{currentPairOfWords.russian}</p>
 					)
 				) : (
 					<button onClick={startTraining}>Начать</button> //подумать над названием кнопки
@@ -135,7 +135,7 @@ const SimulatorPage = () => {
 					Проверить
 				</button>
 			</div>
-			<button onClick={saveProgress}>Сохранить прогресс</button>
+			<button className={styles.buttonSaveProgress} onClick={saveProgress} disabled={isDisabled}>Сохранить прогресс</button>
 			{/* <button onClick={resetProgress}>Сбросить весь прогресс</button> */}
 		</div>
 	);
