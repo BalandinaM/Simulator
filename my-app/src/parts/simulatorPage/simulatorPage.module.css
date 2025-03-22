@@ -1,12 +1,12 @@
 .container {
   width: 1200px;
 	margin: 0 auto;
-	flex: 1;
+	/* flex: 1; */
 	padding: 25px 40px;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
-	align-items: stretch;
+	align-items: center;
 	row-gap: 50px;
 }
 

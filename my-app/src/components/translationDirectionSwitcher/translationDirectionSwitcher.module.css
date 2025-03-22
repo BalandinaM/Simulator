@@ -1,7 +1,16 @@
 .wrap_switchTranslete {
-	/* display: flex;
-	flex-direction: ;
-  gap: 20px;
-	justify-content: center;
-  align-items: flex-start; */
+	display: flex;
+	justify-content: space-between;
+	gap: 50px;
+	align-items: center;
+}
+
+.leftSpan {
+	width: 150px;
+	text-align: left;
+}
+
+.rightSpan {
+  width: 150px;
+  text-align: right;
 }
