@@ -1,6 +1,7 @@
 .wrap_switchTranslete {
-	display: flex;
-	flex-direction: column;
-  justify-content: center;
+	/* display: flex;
+	flex-direction: ;
   gap: 20px;
+	justify-content: center;
+  align-items: flex-start; */
 }
