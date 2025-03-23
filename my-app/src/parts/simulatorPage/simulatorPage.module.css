@@ -57,6 +57,12 @@ button:disabled {
 	color: var(--error-color);
 }
 
+.input::placeholder {
+	opacity: 0.7;
+	font-size: 14px;
+	font-style: italic;
+}
+
 .buttonSaveProgress {
 	width: 500px;
 }

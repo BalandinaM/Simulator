@@ -89,6 +89,22 @@ const SimulatorPage = () => {
 		}
 	};
 
+	const handleKeyDown = () => {
+		if (event.key === "Enter") {
+			setCounterDisplayedWords(counterDisplayedWords + 1);
+
+			const isCorrect = transIntoRu
+				? inputValue.trim().toLowerCase() === currentPairOfWords.russian
+				: inputValue.trim().toLowerCase() === currentPairOfWords.english;
+
+			if (isCorrect) {
+				handleCorrectAnswer();
+			} else {
+				handleIncorrectAnswer();
+			}
+		}
+	};
+
 	async function saveProgress() {
 		setCurrentPairOfWords(null)
 		await setWords(draftWordsStateRef.current);
@@ -113,7 +129,7 @@ const SimulatorPage = () => {
 
 	return (
 		<div className={styles.container}>
-			<TranslationDirectionSwitcher transIntoRu={transIntoRu} setTransIntoRu={setTransIntoRu} />
+			<TranslationDirectionSwitcher transIntoRu={transIntoRu} setTransIntoRu={setTransIntoRu} isDisabled={isDisabled}/>
 			<div className={styles.wrap_word}>
 				{currentPairOfWords ? (
 					transIntoRu ? (
@@ -132,10 +148,12 @@ const SimulatorPage = () => {
 					onChange={handleInputChange}
 					disabled={isDisabled}
 					value={inputValue}
+					onKeyDown={handleKeyDown}
+					placeholder="Для отправки ответа нажмите клавишу Enter"
 				/>
-				<button onClick={handleCheckButtonClick} disabled={isDisabled}>
+				{/* <button onClick={handleCheckButtonClick} disabled={isDisabled}>
 					Проверить
-				</button>
+				</button> */}
 			</div>
 			<button className={styles.buttonSaveProgress} onClick={saveProgress} disabled={isDisabled}>Сохранить прогресс</button>
 			{/* <button onClick={resetProgress}>Сбросить весь прогресс</button> */}
