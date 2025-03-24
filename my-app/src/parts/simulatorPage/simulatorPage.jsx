@@ -7,6 +7,7 @@ import TranslationDirectionSwitcher from "../../components/translationDirectionS
 import { findIndexById } from "../tableAllWords/handleTableActions";
 import { produce } from "immer";
 import ModalBox from "../../components/modalBox/modalBox";
+import { NavLink } from 'react-router-dom';
 
 export async function loader() {
 	const wordsArray = await getWords();
@@ -18,7 +19,6 @@ export async function loader() {
 const SimulatorPage = () => {
 	const { wordsArray } = useLoaderData();
 	const draftWordsStateRef = useRef(wordsArray);
-	//const [wordsState, setWordsState] = useState(wordsArray);
 	const [transIntoRu, setTransIntoRu] = useState(true);
 	const [currentPairOfWords, setCurrentPairOfWords] = useState(null);
 	const [inputValue, setInputValue] = useState("");
@@ -26,6 +26,7 @@ const SimulatorPage = () => {
 	const [isError, setIsError] = useState(false);
 	const [counterDisplayedWords, setCounterDisplayedWords] = useState(0);
 	const [showModalSave, setShowModalSave] = useState(false);
+	const hasWords = currentPairOfWords === undefined;
 
 	const getRandomPair = (array) => {
 		const randomIndex = Math.floor(Math.random() * array.length);
@@ -47,6 +48,7 @@ const SimulatorPage = () => {
 		setShowModalSave(false);
 		if (wordsArray.length > 0) {
 			setCurrentPairOfWords(getRandomPair(wordsArray.filter((item) => item.isLearn === false)));
+			console.log(currentPairOfWords)
 		}
 	};
 
@@ -77,21 +79,6 @@ const SimulatorPage = () => {
 		toggleLearnStatus(currentPairOfWords.id, false);
 	};
 
-	//
-	// const handleCheckButtonClick = () => {
-	// 	setCounterDisplayedWords(counterDisplayedWords + 1);
-
-	// 	const isCorrect = transIntoRu
-	// 		? inputValue.trim().toLowerCase() === currentPairOfWords.russian
-	// 		: inputValue.trim().toLowerCase() === currentPairOfWords.english;
-
-	// 	if (isCorrect) {
-	// 		handleCorrectAnswer();
-	// 	} else {
-	// 		handleIncorrectAnswer();
-	// 	}
-	// };
-
 	const handleKeyDown = () => {
 		if (event.key === "Enter") {
 			setCounterDisplayedWords(counterDisplayedWords + 1);
@@ -116,23 +103,6 @@ const SimulatorPage = () => {
 		await setWords(draftWordsStateRef.current);
 	}
 
-	//возможно эту функцию стоит перенести в список слов
-	// async function resetProgress() {
-	// 	if (
-	// 		window.confirm(
-	// 			"Вы уверены, что хотите сбросить прогресс? Это действие необратимо — все данные будут удалены без возможности восстановления."
-	// 		)
-	// 	) {
-	// 		draftWordsStateRef.current = produce(draftWordsStateRef.current, (draft) => {
-	// 			draft.forEach((elem) => {
-	// 				elem.isLearn = false;
-	// 			});
-	// 		});
-	// 		await setWords(draftWordsStateRef.current);
-	// 		console.log("прогресс обнулен");
-	// 	}
-	// }
-
 	return (
 		<div className={styles.container}>
 			<TranslationDirectionSwitcher transIntoRu={transIntoRu} setTransIntoRu={setTransIntoRu} isDisabled={isDisabled}/>
@@ -143,8 +113,13 @@ const SimulatorPage = () => {
 					) : (
 						<p className={styles.card_word}>{currentPairOfWords.russian}</p>
 					)
-				) : (
+				) : hasWords ? (
 					<button onClick={startTraining}>Начать</button> //подумать над названием кнопки
+				) : (
+					<div className={styles.congratulations_container}>
+						<p className={styles.congratulations_text}>Вы выучили все слова из списка! Поздравляем!!!</p>
+						<NavLink className={styles.add_words_link} to='/newWord'>Добавить еще слова</NavLink>
+					</div>
 				)}
 			</div>
 			<div className={styles.wrap_input}>
@@ -157,9 +132,6 @@ const SimulatorPage = () => {
 					onKeyDown={handleKeyDown}
 					placeholder="Для отправки ответа нажмите клавишу Enter"
 				/>
-				{/* <button onClick={handleCheckButtonClick} disabled={isDisabled}>
-					Проверить
-				</button> */}
 			</div>
 			<button className={styles.buttonSaveProgress} onClick={saveProgress} disabled={isDisabled}>
 				Сохранить прогресс
@@ -171,7 +143,6 @@ const SimulatorPage = () => {
 					onClose={() => setShowModalSave(false)}
 				/>
 			)}
-			{/* <button onClick={resetProgress}>Сбросить весь прогресс</button> */}
 		</div>
 	);
 };
