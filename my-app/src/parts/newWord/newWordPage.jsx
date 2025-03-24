@@ -27,15 +27,17 @@ const NewWordPage = () => {
 
 	return (
 		<div className={styles.container}>
-			<h2>Помогите нам создать ваш персональный словарь! Введите пары слов в поле ниже:</h2>
-			<ul>
+			<h2 className={styles.title}>Помогите нам создать ваш персональный словарь!</h2>
+			<p className={styles.text}>Введите пары слов в поле ниже:</p>
+			<ul className={styles.list}>
 				<li>Каждую пару слов пишите с новой строки.</li>
 				<li>Сначала напишите слово на английском, затем через пробел — его перевод.</li>
 			</ul>
-			<p>Ваши слова будут сохранены, и вы сможете легко их учить. Начните прямо сейчас!</p>
-			<p>Совет: Чем больше слов вы добавите, тем быстрее расширите свой словарный запас!</p>
+			<p className={styles.text}>Ваши слова будут сохранены, и вы сможете легко их учить. Начните прямо сейчас!</p>
+			<p className={styles.text}>Совет: Чем больше слов вы добавите, тем быстрее расширите свой словарный запас!</p>
 			<Form method="post">
 				<textarea
+					className={styles.textarea}
 					name="newWords"
 					id="newWords"
 					value={value}
@@ -44,7 +46,7 @@ const NewWordPage = () => {
 					rows="15"
 					cols="50"
 				/>
-				<button type="submit">Сохранить</button>
+				<button className={styles.button_save}type="submit">Сохранить</button>
 			</Form>
 		</div>
 	);
