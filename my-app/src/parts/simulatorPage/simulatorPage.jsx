@@ -168,7 +168,7 @@ const SimulatorPage = () => {
 				<ModalBox
 					message="Прогресс успешно сохранен!"
 					duration={3000}
-					onClose={() => setShowModal(false)}
+					onClose={() => setShowModalSave(false)}
 				/>
 			)}
 			{/* <button onClick={resetProgress}>Сбросить весь прогресс</button> */}
