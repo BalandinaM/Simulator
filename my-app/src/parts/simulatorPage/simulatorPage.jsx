@@ -6,6 +6,7 @@ import { useState, useRef } from "react";
 import TranslationDirectionSwitcher from "../../components/translationDirectionSwitcher/translationDirectionSwitcher";
 import { findIndexById } from "../tableAllWords/handleTableActions";
 import { produce } from "immer";
+import ModalBox from "../../components/modalBox/modalBox";
 
 export async function loader() {
 	const wordsArray = await getWords();
@@ -24,6 +25,7 @@ const SimulatorPage = () => {
 	const isDisabled = currentPairOfWords === null; //состояние для инпута и кнопки пока тренажер не в работе
 	const [isError, setIsError] = useState(false);
 	const [counterDisplayedWords, setCounterDisplayedWords] = useState(0);
+	const [showModalSave, setShowModalSave] = useState(false);
 
 	const getRandomPair = (array) => {
 		const randomIndex = Math.floor(Math.random() * array.length);
@@ -42,6 +44,7 @@ const SimulatorPage = () => {
 
 	//начать тренажер
 	const startTraining = () => {
+		setShowModalSave(false);
 		if (wordsArray.length > 0) {
 			setCurrentPairOfWords(getRandomPair(wordsArray.filter((item) => item.isLearn === false)));
 		}
@@ -75,19 +78,19 @@ const SimulatorPage = () => {
 	};
 
 	//
-	const handleCheckButtonClick = () => {
-		setCounterDisplayedWords(counterDisplayedWords + 1);
+	// const handleCheckButtonClick = () => {
+	// 	setCounterDisplayedWords(counterDisplayedWords + 1);
 
-		const isCorrect = transIntoRu
-			? inputValue.trim().toLowerCase() === currentPairOfWords.russian
-			: inputValue.trim().toLowerCase() === currentPairOfWords.english;
+	// 	const isCorrect = transIntoRu
+	// 		? inputValue.trim().toLowerCase() === currentPairOfWords.russian
+	// 		: inputValue.trim().toLowerCase() === currentPairOfWords.english;
 
-		if (isCorrect) {
-			handleCorrectAnswer();
-		} else {
-			handleIncorrectAnswer();
-		}
-	};
+	// 	if (isCorrect) {
+	// 		handleCorrectAnswer();
+	// 	} else {
+	// 		handleIncorrectAnswer();
+	// 	}
+	// };
 
 	const handleKeyDown = () => {
 		if (event.key === "Enter") {
@@ -106,7 +109,10 @@ const SimulatorPage = () => {
 	};
 
 	async function saveProgress() {
-		setCurrentPairOfWords(null)
+		setInputValue("");
+		setCurrentPairOfWords(null);
+		setShowModalSave(true);
+		console.log('прогресс сохранен!')
 		await setWords(draftWordsStateRef.current);
 	}
 
@@ -155,7 +161,16 @@ const SimulatorPage = () => {
 					Проверить
 				</button> */}
 			</div>
-			<button className={styles.buttonSaveProgress} onClick={saveProgress} disabled={isDisabled}>Сохранить прогресс</button>
+			<button className={styles.buttonSaveProgress} onClick={saveProgress} disabled={isDisabled}>
+				Сохранить прогресс
+			</button>
+			{showModalSave && (
+				<ModalBox
+					message="Прогресс успешно сохранен!"
+					duration={3000}
+					onClose={() => setShowModal(false)}
+				/>
+			)}
 			{/* <button onClick={resetProgress}>Сбросить весь прогресс</button> */}
 		</div>
 	);
