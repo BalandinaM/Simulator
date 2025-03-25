@@ -7,7 +7,7 @@ const SignUp = () => {
 
 	return (
 			<div className={styles.container}>
-				<h2>Введите данные для создания учетной записи</h2>
+				<h2 className={styles.title}>Введите данные для создания учетной записи</h2>
 				<Formik
 					initialValues={{ name: "", email: "", password: "", confirmPassword: "" }}
 					validationSchema={
@@ -26,49 +26,53 @@ const SignUp = () => {
 					onSubmit={HandleFormSubmit}
 				>
 					{({ errors, touched, isSubmitting }) => (
-						<Form>
-							<div>
-								<label htmlFor="email">Ваше имя</label>
+						<Form className={styles.form}>
+							<div className={styles.input_wrap}>
+								<label className={styles.label} htmlFor="email">Ваше имя</label>
 								<Field
+									className={styles.input}
 									type="name"
 									name="name"
 									id="name"
 									isinvalid={errors.name && touched.name ? "true" : "false"}
 								/>
-								<ErrorMessage name="name" component="div" />
+								<ErrorMessage className={styles.error} name="name" component="div" />
 							</div>
-							<div>
-								<label htmlFor="email">Адрес электронной почты</label>
+							<div className={styles.input_wrap}>
+								<label className={styles.label} htmlFor="email">Адрес электронной почты</label>
 								<Field
+									className={styles.input}
 									type="email"
 									name="email"
 									id="email"
 									autocomplete="email"
 									isinvalid={errors.email && touched.email ? "true" : "false"}
 								/>
-								<ErrorMessage name="email" component="div" />
+								<ErrorMessage className={styles.error} name="email" component="div" />
 							</div>
-							<div>
-								<label htmlFor="password">Пароль</label>
+							<div className={styles.input_wrap}>
+								<label className={styles.label} htmlFor="password">Пароль</label>
 								<Field
+									className={styles.input}
 									type="password"
 									name="password"
 									id="password"
 									isinvalid={errors.password && touched.password ? "true" : "false"}
 								/>
-								<ErrorMessage name="password" component="div" />
+								<ErrorMessage className={styles.error} name="password" component="div" />
 							</div>
-							<div>
-								<label htmlFor="confirmPassword">Повторите пароль</label>
+							<div className={styles.input_wrap}>
+								<label className={styles.label} htmlFor="confirmPassword">Повторите пароль</label>
 								<Field
+									className={styles.input}
 									type="password"
 									name="confirmPassword"
 									id="confirmPassword"
 									isinvalid={errors.confirmPassword && touched.confirmPassword ? "true" : "false"}
 								/>
-								<ErrorMessage name="confirmPassword" component="div" />
+								<ErrorMessage className={styles.error} name="confirmPassword" component="div" />
 							</div>
-							<button type="submit" disabled={isSubmitting}>
+							<button className={styles.button} type="submit" disabled={isSubmitting}>
 								Зарегистрироваться
 							</button>
 						</Form>

@@ -7,47 +7,46 @@ import styles from './login.module.css'
 const Login = () => {
 	return (
 			<div className={styles.container}>
-				<h2>Авторизация</h2>
+				<h2 className={styles.title}>Авторизация</h2>
 				<Formik
 					initialValues={{ email: "", password: "", rememberMe: false }}
 					validationSchema={createValidationSchema({ email: "", password: "", remembeMe: false })}
 					onSubmit={HandleFormSubmit}
 				>
 					{({ errors, touched, isSubmitting }) => (
-						<Form>
-							<div>
-								<label htmlFor="email">Адрес электронной почты</label>
-								<Field
+						<Form className={styles.form}>
+							<div className={styles.input_wrap}>
+								<label className={styles.label} htmlFor="email">Адрес электронной почты</label>
+								<Field className={styles.input}
 									type="email"
 									name="email"
 									id="email"
 									autocomplete="email"
 									isinvalid={errors.email && touched.email ? "true" : "false"}
 								/>
-								<ErrorMessage name="email" component="div" />
+								<ErrorMessage className={styles.error} name="email" component="div" />
 							</div>
-							<div>
-								<label htmlFor="password">Пароль</label>
-								<Field
+							<div className={styles.input_wrap}>
+								<label className={styles.label} htmlFor="password">Пароль</label>
+								<Field className={styles.input}
 									type="password"
 									name="password"
 									id="password"
 									autocomplete="current-password"
 									isinvalid={errors.password && touched.password ? "true" : "false"}
 								/>
-								<ErrorMessage name="password" component="div" />
+								<ErrorMessage className={styles.error} name="password" component="div" />
 							</div>
-							<div>
-								<label htmlFor="rememberMe">Запомнить меня</label>
-								<Field type="checkbox" name="rememberMe" id="rememberMe"/>
+							<div className={styles.input_wrap}>
+								<label className={styles.label} htmlFor="rememberMe">Запомнить меня</label>
+								<Field className={styles.checkbox} type="checkbox" name="rememberMe" id="rememberMe"/>
 							</div>
-							<button type="submit" disabled={isSubmitting}>
+							<button className={styles.button} type="submit" disabled={isSubmitting}>
 								Авторизоваться
 							</button>
 						</Form>
 					)}
 				</Formik>
-				<NavLink to="/signup">Впервые? Тогда зарегистрируйтесь.</NavLink>
 			</div>
 	);
 };
