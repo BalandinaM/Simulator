@@ -250,6 +250,7 @@ select {
   padding: 0.5rem;
   border: 1px solid #ccc;
   border-radius: 4px;
+	background-color: rgba(62, 47, 91, 0.05);
   /* margin-bottom: 1rem; */
 }
 
@@ -257,7 +258,7 @@ input:focus,
 textarea:focus,
 select:focus {
   border-color: var(--primary-color);
-  box-shadow: 0 0 0 2px rgba(19, 111, 99, 0.2);
+  /* box-shadow: 0 0 0 2px rgba(19, 111, 99, 0.2); */
 }
 
 /* Контейнер */
