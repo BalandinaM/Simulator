@@ -2,7 +2,7 @@
 import styles from "./simulatorPage.module.css";
 import { useLoaderData } from "react-router-dom";
 import { getWords, setWords } from "../../forStorage";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import TranslationDirectionSwitcher from "../../components/translationDirectionSwitcher/translationDirectionSwitcher";
 import { findIndexById } from "../tableAllWords/handleTableActions";
 import { produce } from "immer";
@@ -14,10 +14,10 @@ export async function loader() {
 	return { wordsArray };
 }
 
-//надо создать состояние isTraining, что бы если его
-
 const SimulatorPage = () => {
-	const { wordsArray } = useLoaderData();
+	//const { wordsArray } = useLoaderData();
+	const { wordsArray: initialWordsArray } = useLoaderData();
+	const [wordsArray, setWordsArray] = useState(initialWordsArray);
 	const draftWordsStateRef = useRef(wordsArray);
 	const [transIntoRu, setTransIntoRu] = useState(true);
 	const [currentPairOfWords, setCurrentPairOfWords] = useState(null);
@@ -27,6 +27,15 @@ const SimulatorPage = () => {
 	const [counterDisplayedWords, setCounterDisplayedWords] = useState(0);
 	const [showModalSave, setShowModalSave] = useState(false);
 	const hasWords = currentPairOfWords === undefined;
+	console.log(wordsArray);
+	console.log(hasWords);
+	console.log(currentPairOfWords);
+
+	useEffect(() => {
+		if (showModalSave) {
+			setWordsArray(draftWordsStateRef.current);
+		}
+	}, [showModalSave]);
 
 	const getRandomPair = (array) => {
 		const randomIndex = Math.floor(Math.random() * array.length);
@@ -99,7 +108,6 @@ const SimulatorPage = () => {
 		setInputValue("");
 		setCurrentPairOfWords(null);
 		setShowModalSave(true);
-		console.log('прогресс сохранен!')
 		await setWords(draftWordsStateRef.current);
 	}
 
@@ -113,7 +121,7 @@ const SimulatorPage = () => {
 					) : (
 						<p className={styles.card_word}>{currentPairOfWords.russian}</p>
 					)
-				) : hasWords ? (
+				) : !hasWords ? (
 					<button onClick={startTraining}>Начать</button> //подумать над названием кнопки
 				) : (
 					<div className={styles.congratulations_container}>
