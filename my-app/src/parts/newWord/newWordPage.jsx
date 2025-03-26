@@ -12,8 +12,6 @@ export async function action({request}) {
 	return {success: true,  word };
 }
 
-//добавить причесывание введенных слов, .trim, .toLowerCase
-
 const NewWordPage = () => {
 	const [value, setValue] = useState("");
 	const actionData = useActionData();
