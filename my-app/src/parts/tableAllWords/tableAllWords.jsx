@@ -6,6 +6,7 @@ import RadioButtonGroup from "../../components/radioButtonGroup/radioButtonGroup
 import { produce } from "immer";
 import { findIndexById } from "./handleTableActions";
 import TableRow from "../../components/tableRow/tableRow";
+import ModalBox from "../../components/modalBox/modalBox";
 
 export async function loader() {
 	const wordsArray = await getWords();
@@ -22,6 +23,8 @@ const TableAllWords = () => {
 	const { wordsArray } = useLoaderData();
 	const [valueRadio, setValueRadio] = useState("all");
 	const [wordsState, setWordsState] = useState(wordsArray);
+	const [modalMessage, setModalMessage] = useState(null); // Сообщение для модалки
+	const [showModal, setShowModal] = useState(false);     // Показывать ли модалку
 
 	const changeHandlerRadio = (event) => {
 		setValueRadio(event.target.value);
@@ -57,10 +60,33 @@ const TableAllWords = () => {
 	// 	await setWords(wordsState);
 	// };
 
+	// const handleKeyDown = async (parentId, langWord, event, setIsEdit) => {
+	// 	if (event.key === "Enter") {
+	// 		setIsEdit(false);
+	// 		let newValue = handleChange(event);
+	// 		const index = findIndexById(wordsState, parentId);
+	// 		if (index !== -1) {
+	// 			setWordsState(
+	// 				produce((draft) => {
+	// 					draft[index][langWord] = newValue;
+	// 				})
+	// 			);
+	// 		}
+	// 	}
+	// 	await setWords(wordsState);
+	// };
+
 	const handleKeyDown = async (parentId, langWord, event, setIsEdit) => {
 		if (event.key === "Enter") {
-			setIsEdit(false);
 			let newValue = handleChange(event);
+
+			if (!newValue || newValue.trim() === "") {
+				setModalMessage("Ошибка: значение не может быть пустым");
+				setShowModal(true);
+				return; // Не сохраняем, если поле пустое
+		}
+
+			setIsEdit(false);
 			const index = findIndexById(wordsState, parentId);
 			if (index !== -1) {
 				setWordsState(
@@ -72,6 +98,7 @@ const TableAllWords = () => {
 		}
 		await setWords(wordsState);
 	};
+
 
 	async function handleClickDelete(parentId) {
 		let index = findIndexById(wordsState, parentId);
@@ -153,6 +180,17 @@ const TableAllWords = () => {
 					)}
 				</div>
 			)}
+			<div>
+        {/* Ваша форма или инпут */}
+        {showModal && (
+            <ModalBox
+                message={modalMessage}
+                duration={3000}
+                onClose={() => setShowModal(false)}
+								variant="error"
+            />
+        )}
+    </div>
 		</div>
 	);
 };

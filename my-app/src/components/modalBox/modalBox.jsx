@@ -1,13 +1,14 @@
 import { useState, useEffect } from "react";
 import styles from './modalBox.module.css';
 
-const ModalBox = ({ message, duration = 3000 }) => {
+const ModalBox = ({ message, duration = 3000, onClose, variant = 'info' }) => {
   const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
     // Скрываем сообщение через указанное время
     const timer = setTimeout(() => {
       setIsVisible(false);
+			if (onClose) onClose();
     }, duration);
 
     // Очищаем таймер при размонтировании компонента
@@ -16,10 +17,12 @@ const ModalBox = ({ message, duration = 3000 }) => {
 
   if (!isVisible) return null;
 
+	const alertClass = `${styles.alert} ${styles[variant]}`;
+
   return (
-    <div className={styles.alert}>
+    <div className={alertClass}>
       {message}
-      <button onClick={() => setIsVisible(false)} className={styles.closeButton}>
+      <button onClick={() => {setIsVisible(false); if (onClose) onClose();}} className={styles.closeButton}>
         ×
       </button>
     </div>

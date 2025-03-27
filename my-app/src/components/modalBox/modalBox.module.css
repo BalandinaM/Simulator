@@ -13,6 +13,17 @@
   z-index: 1000;
 }
 
+
+.info {
+  background-color: var(--primary-color);
+  color: var(--background-color);
+}
+
+.error {
+  background-color: var(--error-color);
+  color: var(--background-color);
+}
+
 .closeButton {
   background: none;
   border: none;
