@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import styles from "./tableCell.module.css";
 
 const TableCell = ({
@@ -6,10 +6,17 @@ const TableCell = ({
 	word,
 	parentId,
 	handleChange,
-	//handleBlur,
 	handleKeyDown,
 }) => {
 	const [isEdit, setIsEdit] = useState(false);
+	const inputRef = useRef(null); // Создаем реф для input
+
+  // Устанавливаем фокус при изменении isEdit
+  useEffect(() => {
+    if (isEdit && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [isEdit]);
 
 	const handleClickEdit = () => {
 		setIsEdit(true);
@@ -27,6 +34,7 @@ const TableCell = ({
 			) : (
 				<td>
 					<input
+						ref={inputRef}
 						className={styles.input}
 						type="text"
 						defaultValue={word}
