@@ -7,7 +7,6 @@ import { createWord } from "../../forStorage";
 export async function action({request}) {
 	const formData = await request.formData();
 	const dates = Object.fromEntries(formData);
-	//console.log(dates.newWords);
 	const word = await createWord(dates);
 	return {success: true,  word };
 }

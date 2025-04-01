@@ -4,7 +4,6 @@ import { getWords, setWords } from "../../forStorage";
 import { useState } from "react";
 import RadioButtonGroup from "../../components/radioButtonGroup/radioButtonGroup";
 import { produce } from "immer";
-import { findIndexById } from "./handleTableActions";
 import TableRow from "../../components/tableRow/tableRow";
 import ModalBox from "../../components/modalBox/modalBox";
 
@@ -12,12 +11,6 @@ export async function loader() {
 	const wordsArray = await getWords();
 	return { wordsArray };
 }
-
-// подумать над валидацией инпутоd!!!!!!!!!!!!!!!!!!!
-// сделать событие onBlur чтобы инпут становился обратно ячейкой
-// а еще что бы при двойном клике курсор устанавливался в инпут
-
-
 
 const TableAllWords = () => {
 	const { wordsArray } = useLoaderData();
@@ -46,35 +39,9 @@ const TableAllWords = () => {
 		return newValue;
 	};
 
-	// const handleBlur = async (parentId, langWord, setIsEdit) => {
-	// 	setIsEdit(false);
-	// 	let newValue = handleChange(event);
-	// 	const index = findIndexById(wordsState, parentId);
-	// 	if (index !== -1) {
-	// 		setWordsState(
-	// 			produce((draft) => {
-	// 				draft[index][langWord] = newValue;
-	// 			})
-	// 		);
-	// 	}
-	// 	await setWords(wordsState);
-	// };
-
-	// const handleKeyDown = async (parentId, langWord, event, setIsEdit) => {
-	// 	if (event.key === "Enter") {
-	// 		setIsEdit(false);
-	// 		let newValue = handleChange(event);
-	// 		const index = findIndexById(wordsState, parentId);
-	// 		if (index !== -1) {
-	// 			setWordsState(
-	// 				produce((draft) => {
-	// 					draft[index][langWord] = newValue;
-	// 				})
-	// 			);
-	// 		}
-	// 	}
-	// 	await setWords(wordsState);
-	// };
+	const findIndexById = (array, id) => {
+		return array.findIndex((item) => item.id === id);
+	};
 
 	const handleKeyDown = async (parentId, langWord, event, setIsEdit) => {
 		if (event.key === "Enter") {
@@ -133,7 +100,6 @@ const TableAllWords = () => {
 				wordRussian={item.russian}
 				isLearn={item.isLearn}
 				handleChange={handleChange}
-				//handleBlur={handleBlur}
 				handleKeyDown={handleKeyDown}
 				handleClickDelete={handleClickDelete}
 			/>

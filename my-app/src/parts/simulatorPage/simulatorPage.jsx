@@ -1,10 +1,8 @@
-//import { NavLink } from 'react-router-dom';
 import styles from "./simulatorPage.module.css";
 import { useLoaderData } from "react-router-dom";
 import { getWords, setWords } from "../../forStorage";
 import { useState, useRef, useEffect } from "react";
 import TranslationDirectionSwitcher from "../../components/translationDirectionSwitcher/translationDirectionSwitcher";
-import { findIndexById } from "../tableAllWords/handleTableActions";
 import { produce } from "immer";
 import ModalBox from "../../components/modalBox/modalBox";
 import { NavLink } from 'react-router-dom';
@@ -15,7 +13,6 @@ export async function loader() {
 }
 
 const SimulatorPage = () => {
-	//const { wordsArray } = useLoaderData();
 	const { wordsArray: initialWordsArray } = useLoaderData();
 	const [wordsArray, setWordsArray] = useState(initialWordsArray);
 	const draftWordsStateRef = useRef(wordsArray);
@@ -27,9 +24,6 @@ const SimulatorPage = () => {
 	const [counterDisplayedWords, setCounterDisplayedWords] = useState(0);
 	const [showModalSave, setShowModalSave] = useState(false);
 	const hasWords = currentPairOfWords === undefined;
-	console.log(wordsArray);
-	console.log(hasWords);
-	console.log(currentPairOfWords);
 
 	useEffect(() => {
 		if (showModalSave) {
@@ -40,6 +34,10 @@ const SimulatorPage = () => {
 	const getRandomPair = (array) => {
 		const randomIndex = Math.floor(Math.random() * array.length);
 		return array[randomIndex];
+	};
+
+	const findIndexById = (array, id) => {
+		return array.findIndex((item) => item.id === id);
 	};
 
 	//меняет статус слова в памяти приложения
@@ -57,7 +55,6 @@ const SimulatorPage = () => {
 		setShowModalSave(false);
 		if (wordsArray.length > 0) {
 			setCurrentPairOfWords(getRandomPair(wordsArray.filter((item) => item.isLearn === false)));
-			console.log(currentPairOfWords)
 		}
 	};
 
@@ -83,7 +80,6 @@ const SimulatorPage = () => {
 
 	//обработка неправильного ответа
 	const handleIncorrectAnswer = () => {
-		console.log("ошибка!");
 		setIsError(true);
 		toggleLearnStatus(currentPairOfWords.id, false);
 	};

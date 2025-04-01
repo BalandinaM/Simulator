@@ -5,7 +5,6 @@ import {
 	createBrowserRouter,
 	RouterProvider,
 } from 'react-router-dom';
-// import Root, {loader as rootLoader} from './parts/root/root';
 import Root from './parts/root/root';
 import ErrorPage404 from './error-page-404';
 import { Provider } from 'react-redux';
@@ -17,14 +16,11 @@ import Home from './parts/home/home';
 import NewWordPage, {action as newWordAction} from './parts/newWord/newWordPage';
 import TableAllWords, {loader as tableWordsLoader} from './parts/tableAllWords/tableAllWords';
 
-// Использование данных, полученных загрузчиком в React Router
-
 const router = createBrowserRouter([
 	{
 		path: "/",
 		element: <Root />,
 		errorElement: <ErrorPage404 />,
-		//loader: rootLoader,
 		children: [
 			{
 				path: "/simulator",

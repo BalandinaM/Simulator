@@ -5,7 +5,6 @@ import styles from "./home.module.css";
 
 const Home = () => {
 	const dataHomePage = useSelector((state) => state.homePage.infoHomePage);
-	console.log(dataHomePage.title);
 
 	const renderItem = (arr) => {
 		return arr.map((elem) => (

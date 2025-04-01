@@ -9,7 +9,6 @@ const TableRow = ({
 	isLearn,
 	parentId,
 	handleChange,
-	//handleBlur,
 	handleKeyDown,
 	handleClickDelete,
 }) => {
@@ -20,7 +19,6 @@ const TableRow = ({
 				word={wordEnglish}
 				parentId={parentId}
 				handleChange={handleChange}
-				//handleBlur={handleBlur}
 				handleKeyDown={handleKeyDown}
 			/>
 			<TableCell
@@ -28,7 +26,6 @@ const TableRow = ({
 				word={wordRussian}
 				parentId={parentId}
 				handleChange={handleChange}
-				//handleBlur={handleBlur}
 				handleKeyDown={handleKeyDown}
 			/>
 			<td className={styles.cell}>{isLearn === false ? <i>в процессе</i> : <i>знаю</i>}</td>
