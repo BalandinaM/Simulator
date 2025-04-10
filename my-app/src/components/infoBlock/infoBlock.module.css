@@ -1,0 +1,19 @@
+.container {
+	display: flex;
+	flex-direction: column;
+	gap: 15px;
+	align-items: center;
+}
+
+.text {
+ margin-bottom: 0;
+}
+
+.link {
+	color: var(--primary-color);
+
+}
+
+.link:hover {
+	color: var(--accent-color);
+}
