@@ -19,10 +19,8 @@ function isOnlyCyrillic(str) {
 export async function createWord(dates) { //создание нового слова и добавление его в хранилище
 	await someNetwork();
 	let arr = dates.newWords.split('\n');//разбиваем значение из value на массив по переносу строки
-	console.log(arr);
 	for (let i = 0; i < arr.length; i++) {
 		arr[i] = arr[i].trim().toLowerCase();//удаляем пробелы, приводим к нижнему регистру
-		console.log(arr[i].length);
 		if (arr[i].length === 0) { //удаляем пустые строки из массива
 			arr.splice(i, 1);
 			i--;
@@ -32,7 +30,6 @@ export async function createWord(dates) { //создание нового сло
 		.map((item) => {
 			const [eng, rus] = item.split(/\s+/); //убираем все пробелы между словами
 			if (eng === undefined || rus === undefined) {//проверка на пуcтое значение
-				console.log("одно из слов имеет пустое значение!!!");
 				return null;
 			}
 			if (isOnlyLatin(eng) && isOnlyCyrillic(rus)) {
@@ -47,7 +44,6 @@ export async function createWord(dates) { //создание нового сло
 			}
 		})
 		.filter((item) => item !== null);
-	console.log(newWordsArr);
 	let wordsArray = await getWords();
 	for (let i = 0; i < newWordsArr.length; i++) {
 		wordsArray.unshift(newWordsArr[i]);
