@@ -5,7 +5,7 @@ import { useState, useRef, useEffect } from "react";
 import TranslationDirectionSwitcher from "../../components/translationDirectionSwitcher/translationDirectionSwitcher";
 import { produce } from "immer";
 import ModalBox from "../../components/modalBox/modalBox";
-import { NavLink } from 'react-router-dom';
+import InfoBlock from "../../components/infoBlock/infoBlock";
 
 export async function loader() {
 	const wordsArray = await getWords();
@@ -15,11 +15,12 @@ export async function loader() {
 const SimulatorPage = () => {
 	const { wordsArray: initialWordsArray } = useLoaderData();
 	const [wordsArray, setWordsArray] = useState(initialWordsArray);
+	const isEmptyWordsArray = wordsArray.length === 0;
 	const draftWordsStateRef = useRef(wordsArray);
 	const [transIntoRu, setTransIntoRu] = useState(true);
 	const [currentPairOfWords, setCurrentPairOfWords] = useState(null);
 	const [inputValue, setInputValue] = useState("");
-	const isDisabled = currentPairOfWords === null; //состояние для инпута и кнопки пока тренажер не в работе
+	const isDisabled = currentPairOfWords == null; //состояние для инпута и кнопки пока тренажер не в работе, срабатывает и на undefined т.к. равенство не строгое
 	const [isError, setIsError] = useState(false);
 	const [counterDisplayedWords, setCounterDisplayedWords] = useState(0);
 	const [showModalSave, setShowModalSave] = useState(false);
@@ -107,9 +108,13 @@ const SimulatorPage = () => {
 		await setWords(draftWordsStateRef.current);
 	}
 
-	return (
+	return !isEmptyWordsArray ? (
 		<div className={styles.container}>
-			<TranslationDirectionSwitcher transIntoRu={transIntoRu} setTransIntoRu={setTransIntoRu} isDisabled={isDisabled}/>
+			<TranslationDirectionSwitcher
+				transIntoRu={transIntoRu}
+				setTransIntoRu={setTransIntoRu}
+				isDisabled={isDisabled}
+			/>
 			<div className={styles.wrap_word}>
 				{currentPairOfWords ? (
 					transIntoRu ? (
@@ -120,10 +125,11 @@ const SimulatorPage = () => {
 				) : !hasWords ? (
 					<button onClick={startTraining}>Начать</button> //подумать над названием кнопки
 				) : (
-					<div className={styles.congratulations_container}>
-						<p className={styles.congratulations_text}>Вы выучили все слова из списка! Поздравляем!!!</p>
-						<NavLink className={styles.add_words_link} to='/newWord'>Добавить еще слова</NavLink>
-					</div>
+					<InfoBlock
+						message={"Вы выучили все слова из списка! Поздравляем!!!"}
+						link={"/newWord"}
+						textLink={"Добавить еще слова"}
+					/>
 				)}
 			</div>
 			<div className={styles.wrap_input}>
@@ -148,6 +154,13 @@ const SimulatorPage = () => {
 				/>
 			)}
 		</div>
+	) : (
+		<InfoBlock
+			message={"Ваш список слов пока пуст!"}
+			link={"/newWord"}
+			textLink={"Добавить слова"}
+			className={styles.blockNoWord}
+		/>
 	);
 };
 
